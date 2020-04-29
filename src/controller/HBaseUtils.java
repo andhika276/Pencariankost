@@ -16,6 +16,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 import model.Employee;
 
 public class HBaseUtils {
+	/*
 	Configuration config = HBaseConfiguration.create();
 
 	public HBaseUtils() {
@@ -151,5 +152,5 @@ public class HBaseUtils {
 			return false;
 		}		
 		return true;
-	}
+	}*/
 }

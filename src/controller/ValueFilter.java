@@ -12,6 +12,7 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 public class ValueFilter {
 	public static void main(String args[]) throws IOException {
+		/*
 		Configuration conf = HBaseConfiguration.create();
 		HTable table = new HTable(conf, "tabel1");
 		Scan scan = new Scan();
@@ -22,5 +23,6 @@ public class ValueFilter {
 			System.out.println("Salary:"+Bytes.toString(valSalary));
 		}
 		table.close();
+		*/
 	}
 }

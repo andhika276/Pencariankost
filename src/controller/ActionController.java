@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import model.Employee;
 
 public class ActionController extends HttpServlet {
+	/*
 	private static final long serialVersionUID = 1L;
 	private String row;
 	
@@ -89,6 +90,6 @@ public class ActionController extends HttpServlet {
 				rd.forward(request, response);
 			}			
 		}
-	}
+	}*/
 
 }

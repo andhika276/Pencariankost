@@ -10,7 +10,7 @@
 <body>
 	<div align="center">
 		<form action="ActionController" method="post">
-			<input type="submit" name="action" value="InsertNewOwner">
+			<input type="Daftar Kamar" name="action" value="ShowRoom">
         </form>
         <table border="1" cellpadding="5">
             <caption><h2>Daftar Pemilik Kost</h2></caption>
@@ -21,6 +21,7 @@
                 <th>Kamar Kost</th>
                 <th>Delete</th>
                 <th>Update</th>
+                <th>Daftar Kamar</th>
             </tr>
             <c:forEach items="${ownerInfo}" var="info">
             	<form action="ActionController" method="post">
@@ -31,12 +32,12 @@
 			            <td><input type="submit" name="action" value="roomInfo"></td>
 			            <td><input type="submit" name="action" value="delete"></td>
 			            <td><input type="hidden" name="action" value="before_update"><input type="submit" value="update"/></td>
+			    		<input type="submit" name="action" value="InsertNewOwner">
 			        </tr>
 			        <input type="hidden" name="id" value="${info.ownerID}">
 			        <input type="hidden" name="name" value="${info.name}">
 			        <input type="hidden" name="address" value="${info.address}">
 			        <input type="hidden" name="contact" value="${info.contact}">
-			        
 			        <input type="hidden" name="roomList" value="${info.roomList}">
 			     </form>
 		    </c:forEach>

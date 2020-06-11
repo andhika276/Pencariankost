@@ -13,7 +13,8 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 
-import model.Employee;
+import model.Room;
+import model.Owner;
 
 public class HBaseUtils {
 	/*

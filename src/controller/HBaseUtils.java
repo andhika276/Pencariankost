@@ -24,20 +24,19 @@ public class HBaseUtils {
 
 	}
 
-	public ArrayList<Employee> getEmployee() throws IOException {
+	public ArrayList<Owner> getOwner() throws IOException {
 		
 		ArrayList<Employee> resultList = new ArrayList<>();
-		HTable table = new HTable(config, "employee");
+		HTable table = new HTable(config, "owner");
 
 		// Instantiating the Scan class
 		Scan scan = new Scan();
 
 		// Scanning the required columns
-		scan.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("name"));
-		scan.addColumn(Bytes.toBytes("personal"), Bytes.toBytes("city"));
-		scan.addColumn(Bytes.toBytes("professional"),
-				Bytes.toBytes("designation"));
-		scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("salary"));
+		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
+		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("public"),Bytes.toBytes("contact"));
+		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("roomTotal"));
 
 		// Getting the scan result
 		ResultScanner scanner = table.getScanner(scan);
@@ -45,42 +44,41 @@ public class HBaseUtils {
 		// Reading values from scan result
 		for (Result result = scanner.next(); result != null; result = scanner
 				.next()) {
-			byte[] value1 = result.getValue(Bytes.toBytes("personal"),
+			byte[] value1 = result.getValue(Bytes.toBytes("public"),
 					Bytes.toBytes("name"));
-			byte[] value2 = result.getValue(Bytes.toBytes("personal"),
-					Bytes.toBytes("city"));
-			byte[] value3 = result
-					.getValue(Bytes.toBytes("professional"),
-							Bytes.toBytes("designation"));
-			byte[] value4 = result.getValue(Bytes.toBytes("professional"),
-					Bytes.toBytes("salary"));
-			System.out.println("Name:" + Bytes.toString(value1) + " City:"
-					+ Bytes.toString(value2) + " Designation:"
-					+ Bytes.toString(value3) + " Salary:"
+			byte[] value2 = result.getValue(Bytes.toBytes("public"),
+					Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("public"),
+							Bytes.toBytes("contact"));
+			byte[] value4 = result.getValue(Bytes.toBytes("public"),
+					Bytes.toBytes("roomTotal"));
+			System.out.println("Name:" + Bytes.toString(value1) + " Address:"
+					+ Bytes.toString(value2) + " Contact:"
+					+ Bytes.toString(value3) + " RoomTotal:"
 					+ Bytes.toInt(value4));
 			// Printing the values
 			String vname = Bytes.toString(value1);
-			String vcity = Bytes.toString(value2);
-			String vdesignation = Bytes.toString(value3);
-			Integer vsalary = Bytes.toInt(value4);
-			String vRow = Bytes.toString(result.getRow());
+			String vaddress = Bytes.toString(value2);
+			String vcontact = Bytes.toString(value3);
+			Integer vroomTotal = Bytes.toInt(value4);
+			String vownerid = Bytes.toString(result.getRow());
 
-			Employee employee = new Employee(vname, vcity, vdesignation, vsalary);
-			employee.setvRow(vRow);
-			resultList.add(employee);
+			Owner owner = new Owner(vname, vaddress, vcontact, vroomTotal);
+			owner.setvownerid(vownerid);
+			resultList.add(owner);
 		}
 		scanner.close();
 
 		return resultList;
 	}
-	public boolean insertData(String name, String city, String designation, int salary) {
+	public boolean insertData(String name, String address, String contact, int roomtotal) {
 		try {
 			int lastrow=0;
 			// Instantiating HTable class
-			HTable hTable = new HTable(config, "employee");
+			HTable hTable = new HTable(config, "owner");
 			
 			Scan scan = new Scan();
-			scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("salary"));
+			scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("roomtotal"));
 			ResultScanner result = hTable.getScanner(scan);
 
 			for(Result rs = result.next(); rs !=null; rs = result.next()){
@@ -93,9 +91,9 @@ public class HBaseUtils {
 			// adding values using add() method
 			// accepts column family name, qualifier/row name ,value
 			p.add(Bytes.toBytes("personal"), Bytes.toBytes("name"), Bytes.toBytes(name));
-			p.add(Bytes.toBytes("personal"), Bytes.toBytes("city"), Bytes.toBytes(city));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("designation"), Bytes.toBytes(designation));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("salary"), Bytes.toBytes(salary));
+			p.add(Bytes.toBytes("personal"), Bytes.toBytes("city"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("professional"), Bytes.toBytes("designation"), Bytes.toBytes(contact));
+			p.add(Bytes.toBytes("professional"), Bytes.toBytes("salary"), Bytes.toBytes(roomtotal));
 			
 			// Saving the put Instance to the HTable.
 			hTable.put(p);
@@ -111,15 +109,15 @@ public class HBaseUtils {
 	}
 	
 	
-	public boolean delete(String row) {
+	public boolean delete(String id) {
 		
 		try {
-			HTable table = new HTable(config, "employee");
+			HTable table = new HTable(config, "owner");
 			// Instantiating Delete class
-			Delete delete = new Delete(Bytes.toBytes(row));
-			//delete.deleteColumn(Bytes.toBytes("personal"), Bytes.toBytes("name"));
-			delete.deleteFamily(Bytes.toBytes("professional"));
-			delete.deleteFamily(Bytes.toBytes("personal"));
+			Delete delete = new Delete(Bytes.toBytes(id));
+			//delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
+			delete.deleteFamily(Bytes.toBytes("public"));
+			delete.deleteFamily(Bytes.toBytes("public"));
 			// deleting the data
 			table.delete(delete);
 			
@@ -133,15 +131,15 @@ public class HBaseUtils {
 		return true;
 	}
 	
-	public boolean update(String row,String name, String city, String designation, int salary) {
+	public boolean update(String row,String name, String address, String contact, int roomtotal) {
 		try {
-			HTable table = new HTable(config, "employee");
+			HTable table = new HTable(config, "owner");
 			
 			Put p = new Put(Bytes.toBytes(row));
 			p.add(Bytes.toBytes("personal"), Bytes.toBytes("name"), Bytes.toBytes(name));
-			p.add(Bytes.toBytes("personal"), Bytes.toBytes("city"), Bytes.toBytes(city));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("designation"), Bytes.toBytes(designation));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("salary"), Bytes.toBytes(salary));
+			p.add(Bytes.toBytes("personal"), Bytes.toBytes("city"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("professional"), Bytes.toBytes("designation"), Bytes.toBytes(contact));
+			p.add(Bytes.toBytes("professional"), Bytes.toBytes("salary"), Bytes.toBytes(roomtotal));
 			
 			// Saving the put Instance to the HTable.
 			table.put(p);

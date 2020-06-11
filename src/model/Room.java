@@ -11,6 +11,18 @@ public class Room {
 	Integer totalRoomArea;
 	Integer totalToiletArea;
 	
+	public Room(String ownerId, String address, String totalComment, Integer rentalCost, String totalWatt,
+			String floorNumber, Integer totalRoomArea, Integer totalToiletArea) {
+		super();
+		this.ownerId = ownerId;
+		this.address = address;
+		this.totalComment = totalComment;
+		this.rentalCost = rentalCost;
+		this.totalWatt = totalWatt;
+		this.floorNumber = floorNumber;
+		this.totalRoomArea = totalRoomArea;
+		this.totalToiletArea = totalToiletArea;
+	}
 	public String getRoomId() {
 		return roomId;
 	}

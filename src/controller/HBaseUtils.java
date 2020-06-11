@@ -17,7 +17,7 @@ import model.Room;
 import model.Owner;
 
 public class HBaseUtils {
-	/*
+	
 	Configuration config = HBaseConfiguration.create();
 
 	public HBaseUtils() {
@@ -26,7 +26,7 @@ public class HBaseUtils {
 
 	public ArrayList<Owner> getOwner() throws IOException {
 		
-		ArrayList<Employee> resultList = new ArrayList<>();
+		ArrayList<Owner> resultList = new ArrayList<>();
 		HTable table = new HTable(config, "owner");
 
 		// Instantiating the Scan class
@@ -64,7 +64,7 @@ public class HBaseUtils {
 			String vownerid = Bytes.toString(result.getRow());
 
 			Owner owner = new Owner(vname, vaddress, vcontact, vroomTotal);
-			owner.setvownerid(vownerid);
+			owner.setVownerId(vownerid);
 			resultList.add(owner);
 		}
 		scanner.close();
@@ -151,5 +151,5 @@ public class HBaseUtils {
 			return false;
 		}		
 		return true;
-	}*/
+	}
 }

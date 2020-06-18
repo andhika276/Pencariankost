@@ -71,6 +71,54 @@ public class HBaseUtils {
 
 		return resultList;
 	}
+	public ArrayList<Room> getRoom() throws IOException {
+		
+		ArrayList<Owner> resultList = new ArrayList<>();
+		HTable table = new HTable(config, "roomList");
+
+		// Instantiating the Scan class
+		Scan scan = new Scan();
+
+		// Scanning the required columns
+		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
+		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("public"),Bytes.toBytes("contact"));
+		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("roomTotal"));
+
+		// Getting the scan result
+		ResultScanner scanner = table.getScanner(scan);
+
+		// Reading values from scan result
+		for (Result result = scanner.next(); result != null; result = scanner
+				.next()) {
+			byte[] value1 = result.getValue(Bytes.toBytes("public"),
+					Bytes.toBytes("name"));
+			byte[] value2 = result.getValue(Bytes.toBytes("public"),
+					Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("public"),
+							Bytes.toBytes("contact"));
+			byte[] value4 = result.getValue(Bytes.toBytes("public"),
+					Bytes.toBytes("roomTotal"));
+			System.out.println("Name:" + Bytes.toString(value1) + " Address:"
+					+ Bytes.toString(value2) + " Contact:"
+					+ Bytes.toString(value3) + " RoomTotal:"
+					+ Bytes.toInt(value4));
+			// Printing the values
+			String vname = Bytes.toString(value1);
+			String vaddress = Bytes.toString(value2);
+			String vcontact = Bytes.toString(value3);
+			Integer vroomTotal = Bytes.toInt(value4);
+			String vownerid = Bytes.toString(result.getRow());
+
+			Owner owner = new Owner(vname, vaddress, vcontact, vroomTotal);
+			owner.setVownerId(vownerid);
+			resultList.add(owner);
+		}
+		scanner.close();
+
+		return resultList;
+	}	
+	
 	public boolean insertData(String name, String address, String contact, int roomtotal) {
 		try {
 			int lastrow=0;

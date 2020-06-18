@@ -43,7 +43,7 @@ public class ActionController extends HttpServlet {
 			String address = request.getParameter("address");
 			String contact = request.getParameter("contact");
 			int roomtotal = Integer.parseInt(request.getParameter("roomtotal"));			
-			boolean result = hbaseUtils.insertData(name, address, contact, roomtotal);
+			boolean result = hbaseUtils.insertDataOwner(name, address, contact, roomtotal);
 			if(result) {
 				RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
 				rd.forward(request, response);
@@ -55,7 +55,7 @@ public class ActionController extends HttpServlet {
 			String row = request.getParameter("id");
 			System.out.println("ROW DELETED = "+row);
 			
-			boolean result = hbaseUtils.delete(row);
+			boolean result = hbaseUtils.deleteowner(row);
 			if(result) {
 				RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
 				rd.forward(request, response);
@@ -82,7 +82,7 @@ public class ActionController extends HttpServlet {
 			String address = request.getParameter("city");
 			String contact = request.getParameter("designation");
 			int roomtotal = Integer.parseInt(request.getParameter("salary"));			
-			boolean result = hbaseUtils.update(row, name, address, contact, roomtotal);
+			boolean result = hbaseUtils.updateowner(row, name, address, contact, roomtotal);
 			if(result) {
 				RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
 				rd.forward(request, response);

@@ -140,6 +140,7 @@ public class HBaseUtils {
 			
 			Scan scan = new Scan();
 			scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("roomtotal"));
+			
 			ResultScanner result = hTable.getScanner(scan);
 
 			for(Result rs = result.next(); rs !=null; rs = result.next()){
@@ -166,15 +167,19 @@ public class HBaseUtils {
 			// TODO: handle exception
 			return false;
 		}
-		return true;
-	}public boolean insertDataRoom(String name, String address, String contact, int roomtotal) {
+		return true;	
+	}
+	
+	public boolean insertDataRoom(String ownerid, String address, String totalcomment, int rentalcost, String totalwatt, String floornumber, int totalroomarea, int totaltoiletarea) {
 		try {
 			int lastrow=0;
 			// Instantiating HTable class
 			HTable hTable = new HTable(config, "room");
 			
 			Scan scan = new Scan();
-			scan.addColumn(Bytes.toBytes(""), Bytes.toBytes("roomtotal"));
+			scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+			scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomarea"));
+			scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
 			ResultScanner result = hTable.getScanner(scan);
 
 			for(Result rs = result.next(); rs !=null; rs = result.next()){
@@ -186,11 +191,14 @@ public class HBaseUtils {
 			Put p = new Put(Bytes.toBytes("row"+(lastrow +1)));
 			// adding values using add() method
 			// accepts column family name, qualifier/row name ,value
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("name"), Bytes.toBytes(name));
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("address"), Bytes.toBytes(address));
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("rommtotal"), Bytes.toBytes(roomtotal));
-			
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("ownerId"), Bytes.toBytes(ownerid));
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("address"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("totalComment"), Bytes.toBytes(totalcomment));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"), Bytes.toBytes(rentalcost));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"), Bytes.toBytes(totalwatt));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"), Bytes.toBytes(floornumber));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"), Bytes.toBytes(totalroomarea));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"), Bytes.toBytes(totaltoiletarea));
 			// Saving the put Instance to the HTable.
 			hTable.put(p);
 			System.out.println("data inserted");
@@ -207,15 +215,14 @@ public class HBaseUtils {
 	
 	
 	
-	public boolean deleteowner(String id) {
+	public boolean deleteowner(String ownerid) {
 		
 		try {
 			HTable table = new HTable(config, "owner");
 			// Instantiating Delete class
-			Delete delete = new Delete(Bytes.toBytes(id));
+			Delete delete = new Delete(Bytes.toBytes(ownerid));
 			//delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
-			delete.deleteFamily(Bytes.toBytes("public"));
-			delete.deleteFamily(Bytes.toBytes("public"));
+			delete.deleteFamily(Bytes.toBytes("info"));
 			// deleting the data
 			table.delete(delete);
 			
@@ -229,15 +236,63 @@ public class HBaseUtils {
 		return true;
 	}
 	
-	public boolean updateowner(String row,String name, String address, String contact, int roomtotal) {
+	public boolean deleteroom(String roomid) {
+		
+		try {
+			HTable table = new HTable(config, "roomdelete.deleteFamily(Bytes.toBytes(\"info\"));");
+			// Instantiating Delete class
+			Delete delete = new Delete(Bytes.toBytes(roomid));
+			//delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
+			delete.deleteFamily(Bytes.toBytes("general"));
+			delete.deleteFamily(Bytes.toBytes("private"));
+			// deleting the data
+			table.delete(delete);
+			
+			// closing the HTable object
+			table.close();
+			System.out.println("data deleted.....");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}		
+		return true;
+	}
+	
+	public boolean updateowner(String ownerid,String name, String address, String contact, int roomtotal) {
 		try {
 			HTable table = new HTable(config, "owner");
 			
-			Put p = new Put(Bytes.toBytes(row));
+			Put p = new Put(Bytes.toBytes(ownerid));
 			p.add(Bytes.toBytes("public"), Bytes.toBytes("name"), Bytes.toBytes(name));
 			p.add(Bytes.toBytes("public"), Bytes.toBytes("address"), Bytes.toBytes(address));
 			p.add(Bytes.toBytes("public"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
 			p.add(Bytes.toBytes("public"), Bytes.toBytes("roomtotal"), Bytes.toBytes(roomtotal));
+			
+			// Saving the put Instance to the HTable.
+			table.put(p);
+			// closing the HTable object
+			table.close();
+			System.out.println("data updated.....");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}		
+		return true;
+	}
+	
+	public boolean updateroom(String roomid,String ownerid, String address, String totalcomment, int rentalcost, String totalwatt, String floornumber, int totalroomarea, int totaltoiletarea) {
+		try {
+			HTable table = new HTable(config, "room");
+			
+			Put p = new Put(Bytes.toBytes(roomid));
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("ownerId"), Bytes.toBytes(ownerid));
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("address"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("totalComment"), Bytes.toBytes(totalcomment));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"), Bytes.toBytes(rentalcost));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"), Bytes.toBytes(totalwatt));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"), Bytes.toBytes(floornumber));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"), Bytes.toBytes(totalroomarea));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"), Bytes.toBytes(totaltoiletarea));
 			
 			// Saving the put Instance to the HTable.
 			table.put(p);

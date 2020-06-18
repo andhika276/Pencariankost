@@ -90,10 +90,10 @@ public class HBaseUtils {
 			Put p = new Put(Bytes.toBytes("row"+(lastrow +1)));
 			// adding values using add() method
 			// accepts column family name, qualifier/row name ,value
-			p.add(Bytes.toBytes("personal"), Bytes.toBytes("name"), Bytes.toBytes(name));
-			p.add(Bytes.toBytes("personal"), Bytes.toBytes("city"), Bytes.toBytes(address));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("designation"), Bytes.toBytes(contact));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("salary"), Bytes.toBytes(roomtotal));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("name"), Bytes.toBytes(name));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("address"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("rommtotal"), Bytes.toBytes(roomtotal));
 			
 			// Saving the put Instance to the HTable.
 			hTable.put(p);
@@ -136,10 +136,10 @@ public class HBaseUtils {
 			HTable table = new HTable(config, "owner");
 			
 			Put p = new Put(Bytes.toBytes(row));
-			p.add(Bytes.toBytes("personal"), Bytes.toBytes("name"), Bytes.toBytes(name));
-			p.add(Bytes.toBytes("personal"), Bytes.toBytes("city"), Bytes.toBytes(address));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("designation"), Bytes.toBytes(contact));
-			p.add(Bytes.toBytes("professional"), Bytes.toBytes("salary"), Bytes.toBytes(roomtotal));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("name"), Bytes.toBytes(name));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("address"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
+			p.add(Bytes.toBytes("public"), Bytes.toBytes("roomtotal"), Bytes.toBytes(roomtotal));
 			
 			// Saving the put Instance to the HTable.
 			table.put(p);

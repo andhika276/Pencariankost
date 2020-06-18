@@ -139,7 +139,42 @@ public class HBaseUtils {
 			HTable hTable = new HTable(config, "owner");
 			
 			Scan scan = new Scan();
-			scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("roomtotal"));
+			scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("roomtotal"));
+			ResultScanner result = hTable.getScanner(scan);
+
+			for(Result rs = result.next(); rs !=null; rs = result.next()){
+				++lastrow;
+			}
+			
+			// Instantiating Put class
+			// accepts a row name.
+			Put p = new Put(Bytes.toBytes("row"+(lastrow +1)));
+			// adding values using add() method
+			// accepts column family name, qualifier/row name ,value
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes(name));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("address"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("rommtotal"), Bytes.toBytes(roomtotal));
+			
+			// Saving the put Instance to the HTable.
+			hTable.put(p);
+			System.out.println("data inserted");
+
+			// closing HTable
+			hTable.close();
+		} catch (IOException e) {
+			// TODO: handle exception
+			return false;
+		}
+		return true;
+	}public boolean insertDataRoom(String name, String address, String contact, int roomtotal) {
+		try {
+			int lastrow=0;
+			// Instantiating HTable class
+			HTable hTable = new HTable(config, "room");
+			
+			Scan scan = new Scan();
+			scan.addColumn(Bytes.toBytes(""), Bytes.toBytes("roomtotal"));
 			ResultScanner result = hTable.getScanner(scan);
 
 			for(Result rs = result.next(); rs !=null; rs = result.next()){
@@ -168,6 +203,8 @@ public class HBaseUtils {
 		}
 		return true;
 	}
+	
+	
 	
 	
 	public boolean deleteowner(String id) {

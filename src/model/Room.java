@@ -1,80 +1,80 @@
 package model;
 
 public class Room {
-	String roomId;
-	String ownerId;
-	String address;
-	String totalComment;
-	Integer rentalCost;
-	String totalWatt;
-	String floorNumber;
-	Integer totalRoomArea;
-	Integer totalToiletArea;
-	
-	public Room(String ownerId, String address, String totalComment, Integer rentalCost, String totalWatt,
-			String floorNumber, Integer totalRoomArea, Integer totalToiletArea) {
+	String vroomId;
+	String vownerId;
+	String vaddress;
+	String vtotalComment;
+	Integer vrentalCost;
+	String vtotalWatt;
+	String vfloorNumber;
+	Integer vtotalRoomArea;
+	Integer vtotalToiletArea;
+	public Room(String vownerId, String vaddress, String vtotalComment, Integer vrentalCost, String vtotalWatt,
+			String vfloorNumber, Integer vtotalRoomArea, Integer vtotalToiletArea) {
 		super();
-		this.ownerId = ownerId;
-		this.address = address;
-		this.totalComment = totalComment;
-		this.rentalCost = rentalCost;
-		this.totalWatt = totalWatt;
-		this.floorNumber = floorNumber;
-		this.totalRoomArea = totalRoomArea;
-		this.totalToiletArea = totalToiletArea;
+		this.vownerId = vownerId;
+		this.vaddress = vaddress;
+		this.vtotalComment = vtotalComment;
+		this.vrentalCost = vrentalCost;
+		this.vtotalWatt = vtotalWatt;
+		this.vfloorNumber = vfloorNumber;
+		this.vtotalRoomArea = vtotalRoomArea;
+		this.vtotalToiletArea = vtotalToiletArea;
 	}
-	public String getRoomId() {
-		return roomId;
+	public String getVroomId() {
+		return vroomId;
 	}
-	public void setRoomId(String roomId) {
-		this.roomId = roomId;
+	public void setVroomId(String vroomId) {
+		this.vroomId = vroomId;
 	}
-	public String getOwnerId() {
-		return ownerId;
+	public String getVownerId() {
+		return vownerId;
 	}
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
+	public void setVownerId(String vownerId) {
+		this.vownerId = vownerId;
 	}
-	public String getAddress() {
-		return address;
+	public String getVaddress() {
+		return vaddress;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+	public void setVaddress(String vaddress) {
+		this.vaddress = vaddress;
 	}
-	public String getTotalComment() {
-		return totalComment;
+	public String getVtotalComment() {
+		return vtotalComment;
 	}
-	public void setTotalComment(String totalComment) {
-		this.totalComment = totalComment;
+	public void setVtotalComment(String vtotalComment) {
+		this.vtotalComment = vtotalComment;
 	}
-	public Integer getRentalCost() {
-		return rentalCost;
+	public Integer getVrentalCost() {
+		return vrentalCost;
 	}
-	public void setRentalCost(Integer rentalCost) {
-		this.rentalCost = rentalCost;
+	public void setVrentalCost(Integer vrentalCost) {
+		this.vrentalCost = vrentalCost;
 	}
-	public String getTotalWatt() {
-		return totalWatt;
+	public String getVtotalWatt() {
+		return vtotalWatt;
 	}
-	public void setTotalWatt(String totalWatt) {
-		this.totalWatt = totalWatt;
+	public void setVtotalWatt(String vtotalWatt) {
+		this.vtotalWatt = vtotalWatt;
 	}
-	public String getFloorNumber() {
-		return floorNumber;
+	public String getVfloorNumber() {
+		return vfloorNumber;
 	}
-	public void setFloorNumber(String floorNumber) {
-		this.floorNumber = floorNumber;
+	public void setVfloorNumber(String vfloorNumber) {
+		this.vfloorNumber = vfloorNumber;
 	}
-	public Integer getTotalRoomArea() {
-		return totalRoomArea;
+	public Integer getVtotalRoomArea() {
+		return vtotalRoomArea;
 	}
-	public void setTotalRoomArea(Integer totalRoomArea) {
-		this.totalRoomArea = totalRoomArea;
+	public void setVtotalRoomArea(Integer vtotalRoomArea) {
+		this.vtotalRoomArea = vtotalRoomArea;
 	}
-	public Integer getTotalToiletArea() {
-		return totalToiletArea;
+	public Integer getVtotalToiletArea() {
+		return vtotalToiletArea;
 	}
-	public void setTotalToiletArea(Integer totalToiletArea) {
-		this.totalToiletArea = totalToiletArea;
+	public void setVtotalToiletArea(Integer vtotalToiletArea) {
+		this.vtotalToiletArea = vtotalToiletArea;
 	}
+	
 }

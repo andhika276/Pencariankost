@@ -33,10 +33,10 @@ public class HBaseUtils {
 		Scan scan = new Scan();
 
 		// Scanning the required columns
-		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
-		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("address"));
-		scan.addColumn(Bytes.toBytes("public"),Bytes.toBytes("contact"));
-		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("roomTotal"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("info"),Bytes.toBytes("contact"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("roomTotal"));
 
 		// Getting the scan result
 		ResultScanner scanner = table.getScanner(scan);
@@ -44,13 +44,13 @@ public class HBaseUtils {
 		// Reading values from scan result
 		for (Result result = scanner.next(); result != null; result = scanner
 				.next()) {
-			byte[] value1 = result.getValue(Bytes.toBytes("public"),
+			byte[] value1 = result.getValue(Bytes.toBytes("info"),
 					Bytes.toBytes("name"));
-			byte[] value2 = result.getValue(Bytes.toBytes("public"),
+			byte[] value2 = result.getValue(Bytes.toBytes("info"),
 					Bytes.toBytes("address"));
-			byte[] value3 = result.getValue(Bytes.toBytes("public"),
+			byte[] value3 = result.getValue(Bytes.toBytes("info"),
 							Bytes.toBytes("contact"));
-			byte[] value4 = result.getValue(Bytes.toBytes("public"),
+			byte[] value4 = result.getValue(Bytes.toBytes("info"),
 					Bytes.toBytes("roomTotal"));
 			System.out.println("Name:" + Bytes.toString(value1) + " Address:"
 					+ Bytes.toString(value2) + " Contact:"
@@ -73,17 +73,21 @@ public class HBaseUtils {
 	}
 	public ArrayList<Room> getRoom() throws IOException {
 		
-		ArrayList<Owner> resultList = new ArrayList<>();
-		HTable table = new HTable(config, "roomList");
+		ArrayList<Room> resultList = new ArrayList<>();
+		HTable table = new HTable(config, "room");
 
 		// Instantiating the Scan class
 		Scan scan = new Scan();
 
 		// Scanning the required columns
-		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
-		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("address"));
-		scan.addColumn(Bytes.toBytes("public"),Bytes.toBytes("contact"));
-		scan.addColumn(Bytes.toBytes("public"), Bytes.toBytes("roomTotal"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+		scan.addColumn(Bytes.toBytes("general"),Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("totalComment"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+		scan.addColumn(Bytes.toBytes("private"),Bytes.toBytes("totalWatt"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+		scan.addColumn(Bytes.toBytes("private"),Bytes.toBytes("totalToiletArea"));
 
 		// Getting the scan result
 		ResultScanner scanner = table.getScanner(scan);
@@ -91,35 +95,44 @@ public class HBaseUtils {
 		// Reading values from scan result
 		for (Result result = scanner.next(); result != null; result = scanner
 				.next()) {
-			byte[] value1 = result.getValue(Bytes.toBytes("public"),
-					Bytes.toBytes("name"));
-			byte[] value2 = result.getValue(Bytes.toBytes("public"),
-					Bytes.toBytes("address"));
-			byte[] value3 = result.getValue(Bytes.toBytes("public"),
-							Bytes.toBytes("contact"));
-			byte[] value4 = result.getValue(Bytes.toBytes("public"),
-					Bytes.toBytes("roomTotal"));
-			System.out.println("Name:" + Bytes.toString(value1) + " Address:"
-					+ Bytes.toString(value2) + " Contact:"
-					+ Bytes.toString(value3) + " RoomTotal:"
-					+ Bytes.toInt(value4));
+			byte[] value1 = result.getValue(Bytes.toBytes("general"),Bytes.toBytes("ownerId"));
+			byte[] value2 = result.getValue(Bytes.toBytes("general"),Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("general"),Bytes.toBytes("totalComment"));
+			byte[] value4 = result.getValue(Bytes.toBytes("private"),Bytes.toBytes("rentalCost"));
+			byte[] value5 = result.getValue(Bytes.toBytes("private"),Bytes.toBytes("totalWatt"));
+			byte[] value6 = result.getValue(Bytes.toBytes("private"),Bytes.toBytes("floorNumber"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"),Bytes.toBytes("totalRoomArea"));
+			byte[] value8 = result.getValue(Bytes.toBytes("private"),Bytes.toBytes("totalToiletArea"));
+			System.out.println(" ownerId: "
+					+ Bytes.toString(value1) + "address: "
+					+ Bytes.toString(value2) + " totalComment: "
+					+ Bytes.toInt(value3) + "rentalCost: "
+					+ Bytes.toString(value4) + "totalWatt: "
+					+ Bytes.toString(value5) + "floorNumber: "
+					+ Bytes.toString(value6) + "totalRoomArea: "
+					+ Bytes.toInt(value7) + "totalToiletArea"
+					+ Bytes.toInt(value8));
 			// Printing the values
-			String vname = Bytes.toString(value1);
+			String vownerId = Bytes.toString(value1);
 			String vaddress = Bytes.toString(value2);
-			String vcontact = Bytes.toString(value3);
-			Integer vroomTotal = Bytes.toInt(value4);
-			String vownerid = Bytes.toString(result.getRow());
+			String vtotalComment = Bytes.toString(value3);
+			Integer vrentalCost = Bytes.toInt(value4);
+			String vtotalWatt = Bytes.toString(value5);
+			String vfloorNumber = Bytes.toString(value6);
+			Integer vtotalRoomArea= Bytes.toInt(value7);
+			Integer vtotalToiletArea = Bytes.toInt(value8);
+			String vroomId = Bytes.toString(result.getRow());
 
-			Owner owner = new Owner(vname, vaddress, vcontact, vroomTotal);
-			owner.setVownerId(vownerid);
-			resultList.add(owner);
+			Room room = new Room(vownerId, vaddress, vtotalComment, vrentalCost,vtotalWatt,vfloorNumber,vtotalRoomArea,vtotalToiletArea);
+			room.setVroomId(vroomId);
+			resultList.add(room);
 		}
 		scanner.close();
 
 		return resultList;
 	}	
 	
-	public boolean insertData(String name, String address, String contact, int roomtotal) {
+	public boolean insertDataOwner(String name, String address, String contact, int roomtotal) {
 		try {
 			int lastrow=0;
 			// Instantiating HTable class
@@ -157,7 +170,7 @@ public class HBaseUtils {
 	}
 	
 	
-	public boolean delete(String id) {
+	public boolean deleteowner(String id) {
 		
 		try {
 			HTable table = new HTable(config, "owner");
@@ -179,7 +192,7 @@ public class HBaseUtils {
 		return true;
 	}
 	
-	public boolean update(String row,String name, String address, String contact, int roomtotal) {
+	public boolean updateowner(String row,String name, String address, String contact, int roomtotal) {
 		try {
 			HTable table = new HTable(config, "owner");
 			

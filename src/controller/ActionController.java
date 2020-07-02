@@ -33,11 +33,11 @@ public class ActionController extends HttpServlet {
 
 		HBaseUtils hbaseUtils = new HBaseUtils();
 
-		if("retrieve".equals(action)){
+		if("retrieve_owner".equals(action)){
 			ArrayList<Owner> listOwner = hbaseUtils.getOwner();
 			request.setAttribute("dataList", listOwner);
 			request.getRequestDispatcher("/main.jsp").forward(request, response);
-		}else if("insert".equals(action)){
+		}else if("insert_owner".equals(action)){
 			// TODO
 			String name = request.getParameter("name");
 			String address = request.getParameter("address");
@@ -51,7 +51,7 @@ public class ActionController extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
 				rd.forward(request, response);
 			}			
-		}else if("delete".equals(action)){
+		}else if("delete_owner".equals(action)){
 			String row = request.getParameter("id");
 			System.out.println("ROW DELETED = "+row);
 			
@@ -63,10 +63,10 @@ public class ActionController extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
 				rd.forward(request, response);
 			}
-		}else if("to_input".equals(action)) {
+		}else if("to_input_owner".equals(action)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/Input.jsp");
 			rd.forward(request, response);
-		}else if("update".equals(action)) {
+		}else if("update_owner".equals(action)) {
 			String row = request.getParameter("id");
 			String name = request.getParameter("name");
 			String address = request.getParameter("address");
@@ -76,7 +76,64 @@ public class ActionController extends HttpServlet {
 			own.setVownerId(row);
 			request.setAttribute("dataList", own);
 			request.getRequestDispatcher("/edit.jsp").forward(request, response);
-		}else if("edit".equals(action)) {
+		}else if("edit_owner".equals(action)) {
+			String row = request.getParameter("row");
+			String name = request.getParameter("name");
+			String address = request.getParameter("city");
+			String contact = request.getParameter("designation");
+			int roomtotal = Integer.parseInt(request.getParameter("salary"));			
+			boolean result = hbaseUtils.updateowner(row, name, address, contact, roomtotal);
+			if(result) {
+				RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
+				rd.forward(request, response);
+			}else {
+				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
+				rd.forward(request, response);
+			}			
+		}else if("retrieve_room".equals(action)){
+			ArrayList<Owner> listOwner = hbaseUtils.getOwner();
+			request.setAttribute("dataList", listOwner);
+			request.getRequestDispatcher("/main.jsp").forward(request, response);
+		}else if("insert_room".equals(action)){
+			// TODO
+			String name = request.getParameter("name");
+			String address = request.getParameter("address");
+			String contact = request.getParameter("contact");
+			int roomtotal = Integer.parseInt(request.getParameter("roomtotal"));			
+			boolean result = hbaseUtils.insertDataOwner(name, address, contact, roomtotal);
+			if(result) {
+				RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
+				rd.forward(request, response);
+			}else {
+				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
+				rd.forward(request, response);
+			}			
+		}else if("delete_room".equals(action)){
+			String row = request.getParameter("id");
+			System.out.println("ROW DELETED = "+row);
+			
+			boolean result = hbaseUtils.deleteowner(row);
+			if(result) {
+				RequestDispatcher rd = request.getRequestDispatcher("/main.jsp");
+				rd.forward(request, response);
+			}else {
+				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
+				rd.forward(request, response);
+			}
+		}else if("to_input_room".equals(action)) {
+			RequestDispatcher rd = request.getRequestDispatcher("/Input.jsp");
+			rd.forward(request, response);
+		}else if("update_room".equals(action)) {
+			String row = request.getParameter("id");
+			String name = request.getParameter("name");
+			String address = request.getParameter("address");
+			String contact = request.getParameter("contact");
+			int roomtotal = Integer.parseInt(request.getParameter("roomtotal"));
+			Owner own = new Owner(name, address, contact, roomtotal);
+			own.setVownerId(row);
+			request.setAttribute("dataList", own);
+			request.getRequestDispatcher("/edit.jsp").forward(request, response);
+		}else if("edit_room".equals(action)) {
 			String row = request.getParameter("row");
 			String name = request.getParameter("name");
 			String address = request.getParameter("city");

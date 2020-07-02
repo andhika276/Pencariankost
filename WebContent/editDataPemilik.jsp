@@ -12,7 +12,7 @@
 			Update Alamat : <input type="text" name="city" value="${info.address}" ><BR>
 			Update Nomor Telepon : <input type="text" name="designation" value="${info.contact}" ><BR>
 			<input type="hidden" name="row" value="${info.ownerID}">
-			<input type="hidden" name="action" value="edit">
+			<input type="hidden" name="action" value="edit_owner">
 			<input type="submit" />
 		</form>
 </body>

@@ -64,7 +64,7 @@ public class ActionController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		}else if("to_input_owner".equals(action)) {
-			RequestDispatcher rd = request.getRequestDispatcher("/Input.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/InputDataPemilik.jsp");
 			rd.forward(request, response);
 		}else if("update_owner".equals(action)) {
 			String row = request.getParameter("id");
@@ -125,7 +125,7 @@ public class ActionController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		}else if("to_input_room".equals(action)) {
-			RequestDispatcher rd = request.getRequestDispatcher("/Input.jsp");
+			RequestDispatcher rd = request.getRequestDispatcher("/InputDataRoom.jsp");
 			rd.forward(request, response);
 		}else if("update_room".equals(action)) {
 			String row = request.getParameter("roomId");

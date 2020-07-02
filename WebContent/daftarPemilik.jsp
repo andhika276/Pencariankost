@@ -10,7 +10,8 @@
 <body>
 	<div align="center">
 		<form action="ActionController" method="post">
-			<input type="Daftar Kamar" name="action" value="ShowRoom">
+			<input type="submit" name="action" value="ShowAllRoom">
+			<input type="submit" name="action" value="InsertNewOwner">
         </form>
         <table border="1" cellpadding="5">
             <caption><h2>Daftar Pemilik Kost</h2></caption>
@@ -18,7 +19,7 @@
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Nomor Telepon</th>
-                <th>Kamar Kost</th>
+                <th>Jumlah Kamar Kost</th>
                 <th>Delete</th>
                 <th>Update</th>
                 <th>Daftar Kamar</th>
@@ -32,7 +33,7 @@
 			            <td><input type="submit" name="action" value="roomInfo"></td>
 			            <td><input type="submit" name="action" value="delete"></td>
 			            <td><input type="hidden" name="action" value="before_update"><input type="submit" value="update"/></td>
-			    		<input type="submit" name="action" value="InsertNewOwner">
+			    		
 			        </tr>
 			        <input type="hidden" name="id" value="${info.ownerID}">
 			        <input type="hidden" name="name" value="${info.name}">

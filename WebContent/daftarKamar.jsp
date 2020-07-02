@@ -18,14 +18,14 @@
         <table border="1" cellpadding="5">
             <caption><h2>List of users</h2></caption>
             <tr>
-                <th>Owner ID</th>
-                <th>Address</th>
-                <th>Total Comment</th>
-                <th>Rental Cost</th>
-                <th>Total watt</th>
-                <th>Floor Number</th>
-                <th>Total Room Area</th>
-                <th>Total Toilet Area</th>
+                <th>Nama Pemilik</th>
+                <th>Alamat Kost</th>
+                <th>Luas Kamar</th>
+                <th>Harga</th>
+                <th>Fasilitas (Column Family facilty)</th>
+                <th>Daftar Barang (Column Family stuff)</th>
+                <th>Delete</th>
+                <th>Update</th>
             </tr>
             <c:forEach items="${dataList}" var="dataItem">
             	<form action="ActionController" method="post">

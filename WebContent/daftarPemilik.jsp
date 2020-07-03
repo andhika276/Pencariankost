@@ -10,7 +10,8 @@
 <body>
 	<div align="center">
 		<form action="ActionController" method="post">
-			<input type="Daftar Kamar" name="action" value="ShowRoom">
+			<input type="submit" name="action" value="retrieve_owner">
+			<input type="submit" name="action" value="to_input_owner">
         </form>
         <table border="1" cellpadding="5">
             <caption><h2>Daftar Pemilik Kost</h2></caption>

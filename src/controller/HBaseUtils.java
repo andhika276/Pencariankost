@@ -139,7 +139,7 @@ public class HBaseUtils {
 			HTable hTable = new HTable(config, "owner");
 			
 			Scan scan = new Scan();
-			scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("roomtotal"));
+			scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("roomtotal"));
 			
 			ResultScanner result = hTable.getScanner(scan);
 
@@ -155,7 +155,7 @@ public class HBaseUtils {
 			p.add(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes(name));
 			p.add(Bytes.toBytes("info"), Bytes.toBytes("address"), Bytes.toBytes(address));
 			p.add(Bytes.toBytes("info"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
-			p.add(Bytes.toBytes("info"), Bytes.toBytes("rommtotal"), Bytes.toBytes(roomtotal));
+			//p.add(Bytes.toBytes("info"), Bytes.toBytes("rommtotal"), Bytes.toBytes(roomtotal));
 			
 			// Saving the put Instance to the HTable.
 			hTable.put(p);

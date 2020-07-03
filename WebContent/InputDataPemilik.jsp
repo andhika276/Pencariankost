@@ -11,6 +11,7 @@
 		Masukan Nama : <input type="text" name="name"> <BR>
 		Masukan Alamat : <input type="text" name="address"> <BR>
 		Masukan Nomor Telepon : <input type="text" name="contact"> <BR>
+		Masukan Total Kamar: <input type="text" name="roomtotal"> <BR>
 		<input type="hidden" name="action" value="insert_owner">
 		<input type="submit" />
 	</form>

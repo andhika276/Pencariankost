@@ -1,49 +1,68 @@
 package model;
 
+import java.util.List;
+
 public class Owner {
-	String vownerId;
-	String vname;
-	String vaddress;
-	String vcontact;
-	Integer vroomTotal;
-	public Owner(String vname, String vaddress, String vcontact, Integer vroomTotal) {
+	private String ownerId;
+	private String name;
+	private String address;
+	private String contact;
+	private int roomTotal;
+	private List<Room> roomList;
+
+	public Owner(String vname, String vaddress, String vcontact, int vroomTotal) {
 		super();
-		this.vname = vname;
-		this.vaddress = vaddress;
-		this.vcontact = vcontact;
-		this.vroomTotal = vroomTotal;
+		this.name = vname;
+		this.address = vaddress;
+		this.contact = vcontact;
+		this.roomTotal = vroomTotal;
 	}
-	public String getVownerId() {
-		return vownerId;
+
+	public String getOwnerId() {
+		return ownerId;
 	}
-	public void setVownerId(String vownerId) {
-		this.vownerId = vownerId;
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
 	}
-	public String getVname() {
-		return vname;
+
+	public String getName() {
+		return name;
 	}
-	public void setVname(String vname) {
-		this.vname = vname;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getVaddress() {
-		return vaddress;
+
+	public String getAddress() {
+		return address;
 	}
-	public void setVaddress(String vaddress) {
-		this.vaddress = vaddress;
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
-	public String getVcontact() {
-		return vcontact;
+
+	public String getContact() {
+		return contact;
 	}
-	public void setVcontact(String vcontact) {
-		this.vcontact = vcontact;
+
+	public void setContact(String contact) {
+		this.contact = contact;
 	}
-	public Integer getVroomTotal() {
-		return vroomTotal;
+
+	public int getRoomTotal() {
+		return roomTotal;
 	}
-	public void setVroomTotal(Integer vroomTotal) {
-		this.vroomTotal = vroomTotal;
+
+	public void setRoomTotal(int roomTotal) {
+		this.roomTotal = roomTotal;
 	}
-	
-	
-	
+
+	public List<Room> getRoomList() {
+		return roomList;
+	}
+
+	public void setRoomList(List<Room> roomList) {
+		this.roomList = roomList;
+	}
 }

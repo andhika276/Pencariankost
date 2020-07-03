@@ -13,6 +13,12 @@ public class Room {
 	Integer totalRoomArea;
 	Integer totalToiletArea;
 	List<String> Kelengkapan;
+	
+
+	public Room(String vownerId, String vaddress, String vtotalComment, Integer vrentalCost, String vtotalWatt,
+			String vfloorNumber, Integer vtotalRoomArea, Integer vtotalToiletArea) {
+		// TODO Auto-generated constructor stub
+	}
 
 	public String getRoomId() {
 		return roomId;

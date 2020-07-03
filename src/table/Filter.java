@@ -1,4 +1,4 @@
-package controller;
+package table;
 
 import java.io.IOException;
 
@@ -10,11 +10,11 @@ import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 
-public class ValueFilter {
+public class Filter {
 	public static void main(String args[]) throws IOException {
-		/*
+		
 		Configuration conf = HBaseConfiguration.create();
-		HTable table = new HTable(conf, "tabel1");
+		HTable table = new HTable(conf, "room");
 		Scan scan = new Scan();
 		scan.addColumn(Bytes.toBytes("professional"), Bytes.toBytes("salary"));
 		ResultScanner result = table.getScanner(scan);
@@ -23,6 +23,6 @@ public class ValueFilter {
 			System.out.println("Salary:"+Bytes.toString(valSalary));
 		}
 		table.close();
-		*/
+		
 	}
 }

@@ -11,7 +11,8 @@
 	<div align="center">
 		<form action="ActionController" method="post">
 			<input type="submit" name="action" value="ShowAllRoom">
-			<input type="submit" name="action" value="InsertNewOwner">
+			<input type="submit" name="action" value="retrieve_owner">
+			<input type="submit" name="action" value="to_input_owner">
         </form>
         <table border="1" cellpadding="5">
             <caption><h2>Daftar Pemilik Kost</h2></caption>
@@ -30,12 +31,12 @@
 			            <td>${info.name}</td>
 			            <td>${info.address}</td>
 			            <td>${info.contact}</td>
-			            <td><input type="submit" name="action" value="roomInfo"></td>
+			            <td>${info.roomTotal}</td>
 			            <td><input type="submit" name="action" value="delete"></td>
 			            <td><input type="hidden" name="action" value="before_update"><input type="submit" value="update"/></td>
-			    		
+			    		<td><input type="submit" name="action" value="roomInfo"></td>
 			        </tr>
-			        <input type="hidden" name="id" value="${info.ownerID}">
+			        <input type="hidden" name="id" value="${info.ownerId}">
 			        <input type="hidden" name="name" value="${info.name}">
 			        <input type="hidden" name="address" value="${info.address}">
 			        <input type="hidden" name="contact" value="${info.contact}">

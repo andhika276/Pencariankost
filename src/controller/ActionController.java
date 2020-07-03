@@ -49,7 +49,7 @@ public class ActionController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		} else if ("delete_owner".equals(action)) {
-			String row = request.getParameter("ownerId");
+			String row = request.getParameter("id");
 			System.out.println("ROW DELETED = " + row);
 
 			boolean result = hbaseUtils.deleteowner(row);
@@ -65,17 +65,17 @@ public class ActionController extends HttpServlet {
 			String name = request.getParameter("name");
 			String address = request.getParameter("address");
 			String contact = request.getParameter("contact");
-			int roomtotal = Integer.parseInt(request.getParameter("roomtotal"));
+			int roomtotal = Integer.parseInt("0");
 			Owner own = new Owner(name, address, contact, roomtotal);
 			own.setOwnerId(row);
-			request.setAttribute("dataList", own);
-			request.getRequestDispatcher("/edit.jsp").forward(request, response);
+			request.setAttribute("info", own);
+			request.getRequestDispatcher("/editDataPemilik.jsp").forward(request, response);
 		} else if ("edit_owner".equals(action)) {
-			String row = request.getParameter("row");
+			String row = request.getParameter("id");
 			String name = request.getParameter("name");
-			String address = request.getParameter("city");
-			String contact = request.getParameter("designation");
-			int roomtotal = Integer.parseInt(request.getParameter("salary"));
+			String address = request.getParameter("address");
+			String contact = request.getParameter("contact");
+			int roomtotal = Integer.parseInt("0");
 			boolean result = hbaseUtils.updateowner(row, name, address, contact, roomtotal);
 			if (result) {
 				RequestDispatcher rd = request.getRequestDispatcher("/daftarPemilik.jsp");

@@ -239,6 +239,7 @@ public class HBaseUtils {
 			// Instantiating Delete class
 			Delete delete = new Delete(Bytes.toBytes(ownerid));
 			delete.deleteFamily(Bytes.toBytes("info"));
+			delete.deleteFamily(Bytes.toBytes("roominfo"));
 			// deleting the data
 			table.delete(delete);
 
@@ -279,10 +280,10 @@ public class HBaseUtils {
 			HTable table = new HTable(config, "owner");
 
 			Put p = new Put(Bytes.toBytes(ownerid));
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("name"), Bytes.toBytes(name));
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("address"), Bytes.toBytes(address));
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
-			p.add(Bytes.toBytes("public"), Bytes.toBytes("roomtotal"), Bytes.toBytes(roomtotal));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("name"), Bytes.toBytes(name));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("address"), Bytes.toBytes(address));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("contact"), Bytes.toBytes(contact));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("roomtotal"), Bytes.toBytes(roomtotal));
 
 			// Saving the put Instance to the HTable.
 			table.put(p);

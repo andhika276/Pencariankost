@@ -33,14 +33,13 @@
 			            <td>${info.contact}</td>
 			            <td>${info.roomTotal}</td>
 			            <td><input type="submit" name="action" value="delete"></td>
-			            <td><input type="hidden" name="action" value="before_update"><input type="submit" value="update"/></td>
+			            <td><input type="submit" name="action" value="to_update"></td>
 			    		<td><input type="submit" name="action" value="roomInfo"></td>
 			        </tr>
 			        <input type="hidden" name="id" value="${info.ownerId}">
 			        <input type="hidden" name="name" value="${info.name}">
 			        <input type="hidden" name="address" value="${info.address}">
 			        <input type="hidden" name="contact" value="${info.contact}">
-			        <input type="hidden" name="roomList" value="${info.roomList}">
 			     </form>
 		    </c:forEach>
         </table>

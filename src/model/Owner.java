@@ -8,7 +8,7 @@ public class Owner {
 	private String address;
 	private String contact;
 	private int roomTotal;
-	private List<Room> roomList;
+	//private List<Room> roomList;
 
 	public Owner(String vname, String vaddress, String vcontact, int vroomTotal) {
 		super();
@@ -16,6 +16,7 @@ public class Owner {
 		this.address = vaddress;
 		this.contact = vcontact;
 		this.roomTotal = vroomTotal;
+		//this.roomList = roomList;
 	}
 
 	public String getOwnerId() {
@@ -57,12 +58,12 @@ public class Owner {
 	public void setRoomTotal(int roomTotal) {
 		this.roomTotal = roomTotal;
 	}
-
+	/*
 	public List<Room> getRoomList() {
 		return roomList;
 	}
 
 	public void setRoomList(List<Room> roomList) {
 		this.roomList = roomList;
-	}
+	}*/
 }

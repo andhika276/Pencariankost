@@ -64,6 +64,25 @@ public class HBaseUtils {
 
 		return resultList;
 	}
+	
+	public ArrayList<Room> getRoomById(String id) throws IOException{
+		ArrayList<Room> resultList = new ArrayList<>();
+		HTable table = new HTable(config, "owner");
+
+		// Instantiating the Scan class
+		Scan scan = new Scan();
+
+		// Scanning the required columns
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("contact"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("roomtotal"));
+
+		// Getting the scan result
+		ResultScanner scanner = table.getScanner(scan);
+		
+		return resultList;
+	}
 
 	public ArrayList<Room> getRoom() throws IOException {
 

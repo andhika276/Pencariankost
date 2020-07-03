@@ -11,14 +11,12 @@
 	<div align="center">
 		<form action="ActionController" method="post">
 			<input type="submit" name="action" value="Retrieve">
-			<input type="submit" name="action" value="RetrieveAllVersion">
 			<input type="submit" name="action" value="Input">
 			<input type="submit" name="action" value="Filter">
         </form>
         <table border="1" cellpadding="5">
             <caption><h2>List of users</h2></caption>
             <tr>
-                <th>Nama Pemilik</th>
                 <th>Alamat Kost</th>
                 <th>Luas Kamar</th>
                 <th>Harga</th>
@@ -27,13 +25,13 @@
                 <th>Delete</th>
                 <th>Update</th>
             </tr>
-            <c:forEach items="${dataList}" var="dataItem">
+            <c:forEach items="${roomList}" var="room">
             	<form action="ActionController" method="post">
 			        <tr>
-			            <td>${dataItem.vname}</td>
-			            <td>${dataItem.vcity}</td>
-			            <td>${dataItem.vdesignation}</td>
-			            <td>${dataItem.vsalary}</td>
+			            <td>${room.address}</td>
+			            <td>${room.totalRoomArea}</td>
+			            <td>${room.rentalCost}</td>
+			            <td>${room.vsalary}</td>
 			            <td>
 						<c:forEach items="${dataItem.getObjectList()}" var="ListItem">
 							<li style="list-style-type:none;">${ListItem.vmerk}, ${ListItem.vwarna}</li>

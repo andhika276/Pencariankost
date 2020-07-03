@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,9 +31,7 @@ public class ActionController extends HttpServlet {
 		HBaseUtils hbaseUtils = new HBaseUtils();
 
 		if ("retrieve_owner".equals(action)) {
-			ArrayList<Owner> ownerInfo = hbaseUtils.getOwner();
-			request.setAttribute("ownerInfo", ownerInfo);
-			request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
+			showAllData(request, response, hbaseUtils);
 		} else if ("to_input_owner".equals(action)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/InputDataPemilik.jsp");
 			rd.forward(request, response);
@@ -44,8 +43,7 @@ public class ActionController extends HttpServlet {
 			int roomtotal = Integer.parseInt("0");
 			boolean result = hbaseUtils.insertDataOwner(name, address, contact, roomtotal);
 			if (result) {
-				RequestDispatcher rd = request.getRequestDispatcher("/daftarPemilik.jsp");
-				rd.forward(request, response);
+				showAllData(request, response, hbaseUtils);
 			} else {
 				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
 				rd.forward(request, response);
@@ -86,10 +84,25 @@ public class ActionController extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
 				rd.forward(request, response);
 			}
+		} else if ("roomInfo".equals(action)) {
+			//TODO
+			String ownerId = request.getParameter("id");
+			List<Room> roomList = hbaseUtils.getRoomById(ownerId);
+			request.setAttribute("roomList", roomList);
+			RequestDispatcher rd = request.getRequestDispatcher("/daftarKamar.jsp");
+			rd.forward(request, response);
 		} else if ("retrieve_room".equals(action)) {
 			ArrayList<Room> listRoom = hbaseUtils.getRoom();
 			request.setAttribute("dataList", listRoom);
 			request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
+		} else if ("retrieve_all_room".equals(action)) {
+			//TODO
+			
+			
+			
+		} else if ("to_input_room".equals(action)) {
+			RequestDispatcher rd = request.getRequestDispatcher("/InputDataRoom.jsp");
+			rd.forward(request, response);
 		} else if ("insert_room".equals(action)) {
 			// TODO
 			String ownerId = request.getParameter("ownerId");
@@ -121,9 +134,6 @@ public class ActionController extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
 				rd.forward(request, response);
 			}
-		} else if ("to_input_room".equals(action)) {
-			RequestDispatcher rd = request.getRequestDispatcher("/InputDataRoom.jsp");
-			rd.forward(request, response);
 		} else if ("update_room".equals(action)) {
 			String row = request.getParameter("roomId");
 			String ownerId = request.getParameter("ownerId");
@@ -160,5 +170,14 @@ public class ActionController extends HttpServlet {
 			}
 		}
 	}
-
+	
+	public void showAllData(HttpServletRequest request, HttpServletResponse response, HBaseUtils hbaseUtils) {
+		try {
+			ArrayList<Owner> listOwner = hbaseUtils.getOwner();
+			request.setAttribute("ownerInfo", listOwner);
+			request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 }

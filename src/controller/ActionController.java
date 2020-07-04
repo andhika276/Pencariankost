@@ -93,7 +93,7 @@ public class ActionController extends HttpServlet {
 			rd.forward(request, response);
 		} else if ("retrieve_room".equals(action)) {
 			ArrayList<Room> listRoom = hbaseUtils.getRoom();
-			request.setAttribute("dataList", listRoom);
+			request.setAttribute("roomList", listRoom);
 			request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
 		} else if ("retrieve_all_room".equals(action)) {
 			//TODO
@@ -101,6 +101,7 @@ public class ActionController extends HttpServlet {
 			
 			
 		} else if ("to_input_room".equals(action)) {
+			
 			RequestDispatcher rd = request.getRequestDispatcher("/InputDataRoom.jsp");
 			rd.forward(request, response);
 		} else if ("insert_room".equals(action)) {
@@ -144,10 +145,10 @@ public class ActionController extends HttpServlet {
 			String floorNumber = request.getParameter("floorNumber");
 			int totalRoomArea = Integer.parseInt(request.getParameter("totalRoomArea"));
 			int totalToiletArea = Integer.parseInt(request.getParameter("totalToiletArea"));
-			Room room = new Room(ownerId, address, totalComment, rentalCost, totalWatt, floorNumber, totalRoomArea,
-					totalToiletArea);
-			room.setRoomId(row);
-			request.setAttribute("dataList", room);
+			//Room room = new Room(ownerId, address, totalComment, rentalCost, totalWatt, floorNumber, totalRoomArea,
+			//		totalToiletArea);
+			//room.setRoomId(row);
+			//request.setAttribute("dataList", room);
 			request.getRequestDispatcher("/edit.jsp").forward(request, response);
 		} else if ("edit_room".equals(action)) {
 			String row = request.getParameter("roomId");

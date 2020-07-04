@@ -6,6 +6,7 @@ public class Room {
 	String roomId;
 	String ownerId;
 	String address;
+	String city;
 	String totalComment;
 	Integer rentalCost;
 	String totalWatt;
@@ -14,10 +15,13 @@ public class Room {
 	Integer totalToiletArea;
 	List<String> Kelengkapan;
 	
-
-	public Room(String vownerId, String vaddress, String vtotalComment, Integer vrentalCost, String vtotalWatt,
-			String vfloorNumber, Integer vtotalRoomArea, Integer vtotalToiletArea) {
-		// TODO Auto-generated constructor stub
+	public Room(String vownerId, String vcity, String vaddress, Integer vtotalRoomArea, Integer vrentalCost, List<String> vKelengkapan) {
+		this.ownerId = vownerId;
+		this.city = vcity;
+		this.address = vaddress;
+		this.totalRoomArea = vtotalRoomArea;
+		this.rentalCost = vrentalCost;
+		this.Kelengkapan = vKelengkapan;
 	}
 
 	public String getRoomId() {
@@ -98,5 +102,13 @@ public class Room {
 
 	public void setKelengkapan(List<String> kelengkapan) {
 		Kelengkapan = kelengkapan;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
 	}
 }

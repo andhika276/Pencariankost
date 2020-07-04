@@ -18,9 +18,9 @@
             <caption><h2>List of users</h2></caption>
             <tr>
                 <th>Alamat Kost</th>
+                <th>Kota</th>
                 <th>Luas Kamar</th>
                 <th>Harga</th>
-                <th>Fasilitas (Column Family facilty)</th>
                 <th>Daftar Barang (Column Family stuff)</th>
                 <th>Delete</th>
                 <th>Update</th>
@@ -29,24 +29,25 @@
             	<form action="ActionController" method="post">
 			        <tr>
 			            <td>${room.address}</td>
+			            <td>${room.city}</td>
 			            <td>${room.totalRoomArea}</td>
 			            <td>${room.rentalCost}</td>
-			            <td>${room.vsalary}</td>
 			            <td>
-						<c:forEach items="${dataItem.getObjectList()}" var="ListItem">
-							<li style="list-style-type:none;">${ListItem.vmerk}, ${ListItem.vwarna}</li>
+						<c:forEach items="${room.getKelengkapan()}" var="barang">
+							<li style="list-style-type:none;">${barang}, ${barang}</li>
 						</c:forEach>
 						</td>
-						<td>${dataItem.revision}</td>
+						<td>${room.revision}</td>
 			            <td><input type="submit" name="action" value="delete"></td>
 			            <td><input type="hidden" name="action" value="before_update"><input type="submit" value="update"/></td>
 			        </tr>
-			        <input type="hidden" name="row" value="${dataItem.kode}">
-			        <input type="hidden" name="name" value="${dataItem.vname}">
-			        <input type="hidden" name="city" value="${dataItem.vcity}">
-			        <input type="hidden" name="designation" value="${dataItem.vdesignation}">
-			        <input type="hidden" name="salary" value="${dataItem.vsalary}">
-			        <input type="hidden" name="salary" value="${dataItem.objectList}">
+			        <input type="hidden" name="roomId" value="${room.roomId}">
+			        <input type="hidden" name="ownerId" value="${room.ownerId}">
+			        <input type="hidden" name="address" value="${room.address}">
+			        <input type="hidden" name="city" value="${room.city}">
+			        <input type="hidden" name="totalRoomArea" value="${room.totalRoomArea}">
+			        <input type="hidden" name="rentalCost" value="${room.rentalCost}">
+			        <input type="hidden" name="daftarBarang" value="${room.barang}">
 			     </form>
 		    </c:forEach>
         </table>

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -111,19 +112,18 @@ public class HBaseUtils {
 		for (Result result = scanner.next(); result != null; result = scanner.next()) {
 			byte[] value1 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
 			byte[] value2 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("address"));
-			// byte[] value2 = result.getValue(Bytes.toBytes("general"),
-			// Bytes.toBytes("city"));
-			byte[] value3 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("totalComment"));
+			byte[] value3 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("city"));
+			byte[] value4 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("totalComment"));
 
-			byte[] value4 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
-			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"));
-			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"));
-			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
-			byte[] value8 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
-			System.out.println(" ownerId: " + Bytes.toString(value1) + "address: " + Bytes.toString(value2)
-					+ " totalComment: " + Bytes.toInt(value3) + "rentalCost: " + Bytes.toString(value4) + "totalWatt: "
-					+ Bytes.toString(value5) + "floorNumber: " + Bytes.toString(value6) + "totalRoomArea: "
-					+ Bytes.toInt(value7) + "totalToiletArea" + Bytes.toInt(value8));
+			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"));
+			byte[] value8 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+			byte[] value9 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			//System.out.println(" ownerId: " + Bytes.toString(value1) + "address: " + Bytes.toString(value2)
+			//		+ " totalComment: " + Bytes.toInt(value3) + "rentalCost: " + Bytes.toString(value4) + "totalWatt: "
+			//		+ Bytes.toString(value5) + "floorNumber: " + Bytes.toString(value6) + "totalRoomArea: "
+			//		+ Bytes.toInt(value7) + "totalToiletArea" + Bytes.toInt(value8));
 			// Printing the values
 			String vownerId = Bytes.toString(value1);
 			String vaddress = Bytes.toString(value2);
@@ -188,8 +188,8 @@ public class HBaseUtils {
 		return true;
 	}
 
-	public boolean insertDataRoom(String ownerid, String address, String totalcomment, int rentalcost, String totalwatt,
-			String floornumber, int totalroomarea, int totaltoiletarea) {
+	public boolean insertDataRoom(String ownerid, String address, String city, int totalroomarea, String rentalCost,
+			List<String> Kelengkapan) {
 		try {
 			int lastrow = 0;
 			// Instantiating HTable class

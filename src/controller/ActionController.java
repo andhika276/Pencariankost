@@ -153,7 +153,7 @@ public class ActionController extends HttpServlet {
 			List<String> kelengkapan = null;
 			Room room = new Room(ownerId, address, city, rentalCost, totalRoomArea,kelengkapan);
 			room.setRoomId(row);
-			request.setAttribute("room", room);
+			request.setAttribute("ownerId", ownerId);
 			request.getRequestDispatcher("/editRoomDetail.jsp").forward(request, response);
 		} else if ("edit_room".equals(action)) {
 			String row = request.getParameter("roomId");

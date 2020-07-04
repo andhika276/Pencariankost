@@ -8,12 +8,13 @@
 </head>
 <body>
 	<form action="ActionController" method="post">
-		<input type="hidden" name="id" value="${ownerId}">
-		Masukan Nama : <input type="text" name="name"> <BR>
-		Masukan Alamat : <input type="text" name="address"> <BR>
-		Masukan Nomor Telepon : <input type="text" name="contact"> <BR>
-		<input type="hidden" name="action" value="insert_owner">
-		<input type="submit" />
+		<input type="text" name="id" value="${ownerId}"> <BR>
+		Masukan kota : <input type="text" name="city"> <BR>
+		Masukan alamat : <input type="text" name="address"> <BR>
+		Masukan luas kamar (m^2) : <input type="text" name="totalRoomArea"> <BR>
+		Masukan harga sewa (perbulan) : <input type="text" name="rentalCost"> <BR>
+		<input type="hidden" name="action" value="insert_room">
+		<input type="submit"/>
 	</form>
 
 </body>

@@ -11,11 +11,11 @@ public class Room {
 	Integer rentalCost;
 	String totalWatt;
 	String floorNumber;
-	Integer totalRoomArea;
-	Integer totalToiletArea;
+	int totalRoomArea;
+	int totalToiletArea;
 	List<String> Kelengkapan;
 	
-	public Room(String vownerId, String vcity, String vaddress, Integer vtotalRoomArea, Integer vrentalCost, List<String> vKelengkapan) {
+	public Room(String vownerId, String vaddress, String vcity, int vtotalRoomArea, int vrentalCost, List<String> vKelengkapan) {
 		this.ownerId = vownerId;
 		this.city = vcity;
 		this.address = vaddress;

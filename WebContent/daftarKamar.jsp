@@ -11,11 +11,12 @@
 	<div align="center">
 		<form action="ActionController" method="post">
 			<input type="submit" name="action" value="Retrieve">
-			<input type="submit" name="action" value="Input">
+			<input type="submit" name="action" value="to_input_room">
 			<input type="submit" name="action" value="Filter">
+			<input type="text" name="id" value="${ownerId}">
         </form>
         <table border="1" cellpadding="5">
-            <caption><h2>List of users</h2></caption>
+            <caption><h2>List of Room</h2></caption>
             <tr>
                 <th>Alamat Kost</th>
                 <th>Kota</th>
@@ -33,11 +34,10 @@
 			            <td>${room.totalRoomArea}</td>
 			            <td>${room.rentalCost}</td>
 			            <td>
-						<c:forEach items="${room.getKelengkapan()}" var="barang">
-							<li style="list-style-type:none;">${barang}, ${barang}</li>
+						<c:forEach items="${room.getKelengkapan()}" var="Kelengkapan">
+							<li style="list-style-type:none;">${Kelengkapan}, ${Kelengkapan}</li>
 						</c:forEach>
 						</td>
-						<td>${room.revision}</td>
 			            <td><input type="submit" name="action" value="delete"></td>
 			            <td><input type="hidden" name="action" value="before_update"><input type="submit" value="update"/></td>
 			        </tr>
@@ -47,7 +47,7 @@
 			        <input type="hidden" name="city" value="${room.city}">
 			        <input type="hidden" name="totalRoomArea" value="${room.totalRoomArea}">
 			        <input type="hidden" name="rentalCost" value="${room.rentalCost}">
-			        <input type="hidden" name="daftarBarang" value="${room.barang}">
+			        <input type="hidden" name="daftarBarang" value="${room.getKelengkapan()}">
 			     </form>
 		    </c:forEach>
         </table>

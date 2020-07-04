@@ -32,9 +32,9 @@
 			            <td>${info.address}</td>
 			            <td>${info.contact}</td>
 			            <td>${info.roomTotal}</td>
-			            <td><input type="submit" name="action" value="delete"></td>
-			            <td><input type="submit" name="action" value="to_update"></td>
-			    		<td><input type="submit" name="action" value="roomInfo"></td>
+			            <td><input type="submit" name="action" value="delete_owner"></td>
+			            <td><input type="submit" name="action" value="update_owner"></td>
+			    		<td align="center"><input type="submit" name="action" value="roomInfo"></td>
 			        </tr>
 			        <input type="hidden" name="id" value="${info.ownerId}">
 			        <input type="hidden" name="name" value="${info.name}">

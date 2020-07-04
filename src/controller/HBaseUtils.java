@@ -303,6 +303,18 @@ public class HBaseUtils {
 
 			// closing the HTable object
 			table.close();
+			/*
+			table = new HTable(config, "room");
+			// Instantiating Delete class
+			delete = new Delete(Bytes.toBytes(roomid));
+			// delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
+			delete.deleteFamily(Bytes.toBytes("general"));
+			delete.deleteFamily(Bytes.toBytes("private"));
+			// deleting the data
+			table.delete(delete);
+
+			// closing the HTable object
+			table.close();*/
 			System.out.println("data deleted.....");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -314,7 +326,7 @@ public class HBaseUtils {
 	public boolean deleteroom(String roomid) {
 
 		try {
-			HTable table = new HTable(config, "roomdelete.deleteFamily(Bytes.toBytes(\"info\"));");
+			HTable table = new HTable(config, "room");
 			// Instantiating Delete class
 			Delete delete = new Delete(Bytes.toBytes(roomid));
 			// delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
@@ -355,20 +367,20 @@ public class HBaseUtils {
 		return true;
 	}
 
-	public boolean updateroom(String roomid, String ownerid, String address, String totalcomment, int rentalcost,
-			String totalwatt, String floornumber, int totalroomarea, int totaltoiletarea) {
+	public boolean updateroom(String ownerid, String roomid, String address, String city, int totalroomarea, int rentalCost,
+			List<String> Kelengkapan) {
 		try {
 			HTable table = new HTable(config, "room");
 
 			Put p = new Put(Bytes.toBytes(roomid));
 			p.add(Bytes.toBytes("general"), Bytes.toBytes("ownerId"), Bytes.toBytes(ownerid));
 			p.add(Bytes.toBytes("general"), Bytes.toBytes("address"), Bytes.toBytes(address));
-			p.add(Bytes.toBytes("general"), Bytes.toBytes("totalComment"), Bytes.toBytes(totalcomment));
-			p.add(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"), Bytes.toBytes(rentalcost));
-			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"), Bytes.toBytes(totalwatt));
-			p.add(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"), Bytes.toBytes(floornumber));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"), Bytes.toBytes(rentalCost));
 			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"), Bytes.toBytes(totalroomarea));
-			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"), Bytes.toBytes(totaltoiletarea));
+			//p.add(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"), Bytes.toBytes(totalwatt));
+			//p.add(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"), Bytes.toBytes(floornumber));
+			//p.add(Bytes.toBytes("general"), Bytes.toBytes("totalComment"), Bytes.toBytes(totalcomment));
+			//p.add(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"), Bytes.toBytes(totaltoiletarea));
 
 			// Saving the put Instance to the HTable.
 			table.put(p);

@@ -125,7 +125,7 @@ public class ActionController extends HttpServlet {
 				rd.forward(request, response);
 			}
 		} else if ("delete_room".equals(action)) {
-			String row = request.getParameter("roomid");
+			String row = request.getParameter("roomId");
 			System.out.println("ROW DELETED = " + row);
 
 			boolean result = hbaseUtils.deleteowner(row);
@@ -138,31 +138,34 @@ public class ActionController extends HttpServlet {
 			}
 		} else if ("update_room".equals(action)) {
 			String row = request.getParameter("roomId");
-			String ownerId = request.getParameter("ownerId");
+			String ownerId = request.getParameter("id");
 			String address = request.getParameter("address");
-			String totalComment = request.getParameter("totalWatt");
+		//	String totalComment = request.getParameter("totalComment");
 			int rentalCost = Integer.parseInt(request.getParameter("rentalCost"));
-			String totalWatt = request.getParameter("totalWatt");
-			String floorNumber = request.getParameter("floorNumber");
+			String city = request.getParameter("city");
+		//	String totalWatt = request.getParameter("totalWatt");
+		//	String floorNumber = request.getParameter("floorNumber");
 			int totalRoomArea = Integer.parseInt(request.getParameter("totalRoomArea"));
-			int totalToiletArea = Integer.parseInt(request.getParameter("totalToiletArea"));
-			//Room room = new Room(ownerId, address, totalComment, rentalCost, totalWatt, floorNumber, totalRoomArea,
-			//		totalToiletArea);
-			//room.setRoomId(row);
-			//request.setAttribute("dataList", room);
+		//	int totalToiletArea = Integer.parseInt(request.getParameter("totalToiletArea"));
+			List<String> kelengkapan = null;
+			Room room = new Room(ownerId, address, city, rentalCost, totalRoomArea,kelengkapan);
+			room.setRoomId(row);
+			request.setAttribute("general", room);
+			request.setAttribute("private", room);
 			request.getRequestDispatcher("/edit.jsp").forward(request, response);
 		} else if ("edit_room".equals(action)) {
 			String row = request.getParameter("roomId");
-			String ownerId = request.getParameter("ownerId");
+			String ownerId = request.getParameter("id");
 			String address = request.getParameter("address");
-			String totalComment = request.getParameter("totalWatt");
+			String city = request.getParameter("city");
+		//	String totalComment = request.getParameter("totalWatt");
 			int rentalCost = Integer.parseInt(request.getParameter("rentalCost"));
-			String totalWatt = request.getParameter("totalWatt");
-			String floorNumber = request.getParameter("floorNumber");
+		//	String totalWatt = request.getParameter("totalWatt");
+		//	String floorNumber = request.getParameter("floorNumber");
 			int totalRoomArea = Integer.parseInt(request.getParameter("totalRoomArea"));
-			int totalToiletArea = Integer.parseInt(request.getParameter("totalToiletArea"));
-			boolean result = hbaseUtils.updateroom(row, ownerId, address, totalComment, rentalCost, totalWatt,
-					floorNumber, totalRoomArea, totalToiletArea);
+		//	int totalToiletArea = Integer.parseInt(request.getParameter("totalToiletArea"));
+			List<String> kelengkapan = null;
+			boolean result = hbaseUtils.updateroom(row, ownerId, address, city, totalRoomArea, rentalCost, kelengkapan);
 			if (result) {
 				RequestDispatcher rd = request.getRequestDispatcher("/daftarPemilik.jsp");
 				rd.forward(request, response);

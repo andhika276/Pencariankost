@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Pencarian Indekos- Input Data Pemilik</title>
+<title>Pencarian Indekos- Input Data Kamar</title>
 </head>
 <body>
 	<form action="ActionController" method="post">

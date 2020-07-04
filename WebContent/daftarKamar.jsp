@@ -39,7 +39,7 @@
 						</c:forEach>
 						</td>
 			            <td><input type="submit" name="action" value="delete_room"></td>
-			            <td><input type="hidden" name="action" value="before_update"><input type="submit" value="update_room"/></td>
+			            <td><input type="submit" name="action" value="update_room"/></td>
 			        </tr>
 			        <input type="hidden" name="roomId" value="${room.roomId}">
 			        <input type="hidden" name="ownerId" value="${room.ownerId}">

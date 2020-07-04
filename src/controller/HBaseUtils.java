@@ -290,7 +290,7 @@ public class HBaseUtils {
 		return true;
 	}
 
-	public boolean deleteowner(String ownerid) {
+	public boolean deleteowner(String ownerid, String roomid) {
 
 		try {
 			HTable table = new HTable(config, "owner");
@@ -303,7 +303,7 @@ public class HBaseUtils {
 
 			// closing the HTable object
 			table.close();
-			/*
+			
 			table = new HTable(config, "room");
 			// Instantiating Delete class
 			delete = new Delete(Bytes.toBytes(roomid));
@@ -314,7 +314,7 @@ public class HBaseUtils {
 			table.delete(delete);
 
 			// closing the HTable object
-			table.close();*/
+			table.close();
 			System.out.println("data deleted.....");
 		} catch (IOException e) {
 			e.printStackTrace();

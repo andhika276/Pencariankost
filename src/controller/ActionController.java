@@ -50,9 +50,12 @@ public class ActionController extends HttpServlet {
 			}
 		} else if ("delete_owner".equals(action)) {
 			String row = request.getParameter("id");
+			List<Room> roomList = hbaseUtils.getRoomById(row);
+			String roomid = request.getParameter("roomId");
+			
 			System.out.println("ROW DELETED = " + row);
 
-			boolean result = hbaseUtils.deleteowner(row);
+			boolean result = hbaseUtils.deleteowner(row,roomid);
 			if (result) {
 				showAllData(request, response, hbaseUtils);
 			} else {
@@ -128,7 +131,7 @@ public class ActionController extends HttpServlet {
 			String row = request.getParameter("roomId");
 			System.out.println("ROW DELETED = " + row);
 
-			boolean result = hbaseUtils.deleteowner(row);
+			boolean result = hbaseUtils.deleteroom(row);
 			if (result) {
 				RequestDispatcher rd = request.getRequestDispatcher("/daftarPemilik.jsp");
 				rd.forward(request, response);
@@ -150,9 +153,8 @@ public class ActionController extends HttpServlet {
 			List<String> kelengkapan = null;
 			Room room = new Room(ownerId, address, city, rentalCost, totalRoomArea,kelengkapan);
 			room.setRoomId(row);
-			request.setAttribute("general", room);
-			request.setAttribute("private", room);
-			request.getRequestDispatcher("/edit.jsp").forward(request, response);
+			request.setAttribute("room", room);
+			request.getRequestDispatcher("/editRoomDetail.jsp").forward(request, response);
 		} else if ("edit_room".equals(action)) {
 			String row = request.getParameter("roomId");
 			String ownerId = request.getParameter("id");

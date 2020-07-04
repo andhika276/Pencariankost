@@ -13,7 +13,7 @@
 		Update alamat : <input type="text" name="address"> <BR>
 		Update luas kamar (m^2) : <input type="text" name="totalRoomArea"> <BR>
 		Update harga sewa (perbulan) : <input type="text" name="rentalCost"> <BR>
-		<input type="hidden" name="action" value="insert_room">
+		<input type="hidden" name="action" value="edit_room">
 		<input type="submit"/>
 	</form>
 </body>

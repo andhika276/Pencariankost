@@ -98,10 +98,7 @@ public class ActionController extends HttpServlet {
 			request.setAttribute("roomList", listRoom);
 			request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
 		} else if ("retrieve_all_room".equals(action)) {
-			//TODO
-			
-			
-			
+			showAllroom(request,response,hbaseUtils);
 		} else if ("to_input_room".equals(action)) {
 			String ownerId = request.getParameter("id");
 			request.setAttribute("ownerId", ownerId);
@@ -183,6 +180,16 @@ public class ActionController extends HttpServlet {
 			ArrayList<Owner> listOwner = hbaseUtils.getOwner();
 			request.setAttribute("ownerInfo", listOwner);
 			request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void showAllroom(HttpServletRequest request, HttpServletResponse response, HBaseUtils hbaseUtils) {
+		try {
+			ArrayList<Room> listroom = hbaseUtils.getRoom();
+			request.setAttribute("roomList",listroom);
+			request.getRequestDispatcher("/daftarKamar.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

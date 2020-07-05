@@ -10,7 +10,7 @@
 <body>
 	<div align="center">
 		<form action="ActionController" method="post">
-			<input type="submit" name="action" value="ShowAllRoom">
+			<input type="submit" name="action" value="retrieve_all_room">
 			<input type="submit" name="action" value="retrieve_owner">
 			<input type="submit" name="action" value="to_input_owner">
         </form>

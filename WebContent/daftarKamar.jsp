@@ -10,7 +10,7 @@
 <body>
 	<div align="center">
 		<form action="ActionController" method="post">
-			<input type="submit" name="action" value="Retrieve">
+			<input type="submit" name="action" value="retrieve_room">
 			<input type="submit" name="action" value="to_input_room">
 			<input type="submit" name="action" value="Filter">
 			<input type="text" name="id" value="${ownerId}">

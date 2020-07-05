@@ -96,7 +96,7 @@ public class ActionController extends HttpServlet {
 		} else if ("retrieve_room".equals(action)) {
 			ArrayList<Room> listRoom = hbaseUtils.getRoom();
 			request.setAttribute("roomList", listRoom);
-			request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
+			request.getRequestDispatcher("/daftarKamar.jsp").forward(request, response);
 		} else if ("retrieve_all_room".equals(action)) {
 			showAllroom(request,response,hbaseUtils);
 		} else if ("to_input_room".equals(action)) {

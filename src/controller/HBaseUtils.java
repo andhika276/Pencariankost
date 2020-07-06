@@ -370,13 +370,14 @@ public class HBaseUtils {
 	public boolean updateroom(String ownerid, String roomid, String address, String city, int totalroomarea, int rentalCost,
 			List<String> Kelengkapan) {
 		try {
-			HTable table = new HTable(config, "room");
+			HTable table = new HTable(config,"room");
 
 			Put p = new Put(Bytes.toBytes(roomid));
 			p.add(Bytes.toBytes("general"), Bytes.toBytes("ownerId"), Bytes.toBytes(ownerid));
 			p.add(Bytes.toBytes("general"), Bytes.toBytes("address"), Bytes.toBytes(address));
-			p.add(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"), Bytes.toBytes(rentalCost));
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("city"), Bytes.toBytes(city));
 			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"), Bytes.toBytes(totalroomarea));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"), Bytes.toBytes(rentalCost));
 			//p.add(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"), Bytes.toBytes(totalwatt));
 			//p.add(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"), Bytes.toBytes(floornumber));
 			//p.add(Bytes.toBytes("general"), Bytes.toBytes("totalComment"), Bytes.toBytes(totalcomment));

@@ -148,7 +148,7 @@ public class HBaseUtils {
 		
 		String daftarBarang = Bytes.toString(value);
 		
-		if(daftarBarang == null) {
+		if(daftarBarang == null || daftarBarang == "") {
 			return null;
 		}
 		
@@ -212,19 +212,19 @@ public class HBaseUtils {
 			// Printing the values
 			String vownerId = Bytes.toString(value1);
 			String vaddress = Bytes.toString(value2);
-			String vtotalComment = Bytes.toString(value3);
+			String vcity = Bytes.toString(value3);
 			Integer vrentalCost = Bytes.toInt(value4);
 			//String vtotalWatt = Bytes.toString(value5);
 			//String vfloorNumber = Bytes.toString(value6);
 			Integer vtotalRoomArea = Bytes.toInt(value5);
 			//Integer vtotalToiletArea = Bytes.toInt(value8);
 			String vroomId = Bytes.toString(result.getRow());
-
-			// Room room = new Room(vownerId, vaddress, vtotalComment, vrentalCost,
-			// vtotalWatt, vfloorNumber,
-			// vtotalRoomArea, vtotalToiletArea);
-			// room.setRoomId(vroomId);
-			// resultList.add(room);
+			
+			List<Barang> vKelengkapan = getBarang(vroomId);
+			
+			Room room = new Room(vownerId, vaddress, vcity, vtotalRoomArea, vrentalCost, vKelengkapan);
+			room.setRoomId(vroomId);
+			resultList.add(room);
 		}
 		scanner.close();
 
@@ -327,10 +327,43 @@ public class HBaseUtils {
 		return true;
 	}
 
-	public boolean deleteowner(String ownerid, String roomid) {
+	public boolean deleteowner(String ownerid) {
 
 		try {
-			HTable table = new HTable(config, "owner");
+			//tambah delete all room
+			HTable table = new HTable(config, "room");
+
+			List<Filter> filters = new ArrayList<Filter>();
+
+			//Filter
+			SingleColumnValueFilter colValFilter = new SingleColumnValueFilter(Bytes.toBytes("general"), Bytes.toBytes("ownerId")
+		            , CompareFilter.CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(ownerid)));
+		    colValFilter.setFilterIfMissing(false);
+		    filters.add(colValFilter);
+			System.out.println(ownerid);
+
+			FilterList fl = new FilterList( FilterList.Operator.MUST_PASS_ALL, filters);
+			
+			// Instantiating the Scan class
+			Scan scan = new Scan();
+			
+			// Scanning the required columns
+			scan.addFamily(Bytes.toBytes("general"));
+			scan.addFamily(Bytes.toBytes("private"));
+			scan.addFamily(Bytes.toBytes("public"));
+			scan.addFamily(Bytes.toBytes("other"));
+			scan.setFilter(fl);
+
+			// Getting the scan result
+			ResultScanner scanner = table.getScanner(scan);
+			// Reading values from scan result
+			for (Result result = scanner.next(); result != null; result = scanner.next()) {
+				String roomId = Bytes.toString(result.getRow());
+				deleteroom(roomId);
+			}
+			scanner.close();
+			
+			table = new HTable(config, "owner");
 			// Instantiating Delete class
 			Delete delete = new Delete(Bytes.toBytes(ownerid));
 			delete.deleteFamily(Bytes.toBytes("info"));
@@ -341,17 +374,6 @@ public class HBaseUtils {
 			// closing the HTable object
 			table.close();
 			
-			table = new HTable(config, "room");
-			// Instantiating Delete class
-			delete = new Delete(Bytes.toBytes(roomid));
-			// delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
-			delete.deleteFamily(Bytes.toBytes("general"));
-			delete.deleteFamily(Bytes.toBytes("private"));
-			// deleting the data
-			table.delete(delete);
-
-			// closing the HTable object
-			table.close();
 			System.out.println("data deleted.....");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -369,6 +391,8 @@ public class HBaseUtils {
 			// delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
 			delete.deleteFamily(Bytes.toBytes("general"));
 			delete.deleteFamily(Bytes.toBytes("private"));
+			delete.deleteFamily(Bytes.toBytes("public"));
+			delete.deleteFamily(Bytes.toBytes("other"));
 			// deleting the data
 			table.delete(delete);
 
@@ -444,7 +468,12 @@ public class HBaseUtils {
 			
 			String daftarBarang = Bytes.toString(value);
 			
-			daftarBarang = daftarBarang.concat(namaBarang.toLowerCase() + ",");
+			if(daftarBarang == null) {
+				daftarBarang = namaBarang.concat(",");
+			}
+			else {
+				daftarBarang = daftarBarang.concat(namaBarang.toLowerCase() + ",");
+			}
 					
 			Put p = new Put(Bytes.toBytes(roomid));
 			p.add(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"), Bytes.toBytes(daftarBarang));

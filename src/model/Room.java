@@ -8,7 +8,7 @@ public class Room {
 	String address;
 	String city;
 	String totalComment;
-	Integer rentalCost;
+	int rentalCost;
 	String totalWatt;
 	String floorNumber;
 	int totalRoomArea;
@@ -80,11 +80,11 @@ public class Room {
 		this.floorNumber = floorNumber;
 	}
 
-	public Integer getTotalRoomArea() {
+	public int getTotalRoomArea() {
 		return totalRoomArea;
 	}
 
-	public void setTotalRoomArea(Integer totalRoomArea) {
+	public void setTotalRoomArea(int totalRoomArea) {
 		this.totalRoomArea = totalRoomArea;
 	}
 

@@ -610,4 +610,279 @@ public class HBaseUtils {
 
 		return resultList;
 	}
+
+	public List<Room> getRoomByToilet(String toiletType) throws IOException{
+		List<Room> resultList = new ArrayList<Room>();
+
+		HTable table = new HTable(config, "room");
+
+		List<Filter> filters = new ArrayList<Filter>();
+
+		//Filter
+		SingleColumnValueFilter colValFilter = new SingleColumnValueFilter(Bytes.toBytes("private"), Bytes.toBytes("toiletType")
+	            , CompareFilter.CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(toiletType)));
+	    colValFilter.setFilterIfMissing(false);
+	    filters.add(colValFilter);
+		System.out.println(toiletType);
+
+		FilterList fl = new FilterList( FilterList.Operator.MUST_PASS_ALL, filters);
+		
+		// Instantiating the Scan class
+		Scan scan = new Scan();
+		
+		// Scanning the required columns
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("city"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+		scan.setFilter(fl);
+
+		// Getting the scan result
+		ResultScanner scanner = table.getScanner(scan);
+		// Reading values from scan result
+		for (Result result = scanner.next(); result != null; result = scanner.next()) {
+			byte[] value1 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+			byte[] value2 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("city"));
+			byte[] value4 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			byte[] value8 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+			System.out.println("ownerId:" + Bytes.toString(value1) + " address:" + Bytes.toString(value2) + " city:"
+					+ Bytes.toString(value3) + " totalRoomArea:" + Bytes.toInt(value4) + " rentalCost:" + Bytes.toInt(value5));
+			//Printing the values
+			String vownerId = Bytes.toString(value1);
+			String vcity = Bytes.toString(value2);
+			String vaddress = Bytes.toString(value3);
+			int vtotalRoomArea = Bytes.toInt(value4);
+			int vrentalCost = Bytes.toInt(value5);
+			int vtoiletArea = Bytes.toInt(value7);
+			String vtoiletType = Bytes.toString(value8);
+			String roomId = Bytes.toString(result.getRow());
+			
+			//Scan perlengkapan
+			List<Barang> vKelengkapan = getBarang(roomId);
+
+			Room room = new Room(vownerId, vcity, vaddress, vtotalRoomArea, vrentalCost, vKelengkapan, vtoiletArea);
+			room.setRoomId(roomId);
+			room.setToiletType(vtoiletType);
+			resultList.add(room);
+		}
+		scanner.close();
+
+		return resultList;
+	}
+
+	public List<Room> getRoomByCity(String city) throws IOException{
+		List<Room> resultList = new ArrayList<Room>();
+
+		HTable table = new HTable(config, "room");
+
+		List<Filter> filters = new ArrayList<Filter>();
+
+		//Filter
+		SingleColumnValueFilter colValFilter = new SingleColumnValueFilter(Bytes.toBytes("general"), Bytes.toBytes("city")
+	            , CompareFilter.CompareOp.EQUAL, new BinaryComparator(Bytes.toBytes(city)));
+	    colValFilter.setFilterIfMissing(false);
+	    filters.add(colValFilter);
+		System.out.println(city);
+
+		FilterList fl = new FilterList( FilterList.Operator.MUST_PASS_ALL, filters);
+		
+		// Instantiating the Scan class
+		Scan scan = new Scan();
+		
+		// Scanning the required columns
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("city"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+		scan.setFilter(fl);
+
+		// Getting the scan result
+		ResultScanner scanner = table.getScanner(scan);
+		// Reading values from scan result
+		for (Result result = scanner.next(); result != null; result = scanner.next()) {
+			byte[] value1 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+			byte[] value2 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("city"));
+			byte[] value4 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			byte[] value8 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+			System.out.println("ownerId:" + Bytes.toString(value1) + " address:" + Bytes.toString(value2) + " city:"
+					+ Bytes.toString(value3) + " totalRoomArea:" + Bytes.toInt(value4) + " rentalCost:" + Bytes.toInt(value5));
+			//Printing the values
+			String vownerId = Bytes.toString(value1);
+			String vcity = Bytes.toString(value2);
+			String vaddress = Bytes.toString(value3);
+			int vtotalRoomArea = Bytes.toInt(value4);
+			int vrentalCost = Bytes.toInt(value5);
+			int vtoiletArea = Bytes.toInt(value7);
+			String vtoiletType = Bytes.toString(value8);
+			String roomId = Bytes.toString(result.getRow());
+			
+			//Scan perlengkapan
+			List<Barang> vKelengkapan = getBarang(roomId);
+
+			Room room = new Room(vownerId, vcity, vaddress, vtotalRoomArea, vrentalCost, vKelengkapan, vtoiletArea);
+			room.setRoomId(roomId);
+			room.setToiletType(vtoiletType);
+			resultList.add(room);
+		}
+		scanner.close();
+
+		return resultList;
+	}
+
+	public List<Room> getRoomByCost(int min, int max) throws IOException{
+		List<Room> resultList = new ArrayList<Room>();
+
+		HTable table = new HTable(config, "room");
+
+		List<Filter> filters = new ArrayList<Filter>();
+
+		//Filter
+		SingleColumnValueFilter colValFilter = new SingleColumnValueFilter(Bytes.toBytes("private"), Bytes.toBytes("rentalCost")
+	            , CompareFilter.CompareOp.GREATER_OR_EQUAL, new BinaryComparator(Bytes.toBytes(min)));
+	    colValFilter.setFilterIfMissing(false);
+	    filters.add(colValFilter);
+	    SingleColumnValueFilter colValFilter2 = new SingleColumnValueFilter(Bytes.toBytes("private"), Bytes.toBytes("rentalCost")
+	            , CompareFilter.CompareOp.LESS_OR_EQUAL, new BinaryComparator(Bytes.toBytes(max)));
+	    colValFilter.setFilterIfMissing(false);
+	    filters.add(colValFilter2);
+
+		FilterList fl = new FilterList( FilterList.Operator.MUST_PASS_ALL, filters);
+		
+		// Instantiating the Scan class
+		Scan scan = new Scan();
+		
+		// Scanning the required columns
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("city"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+		scan.setFilter(fl);
+
+		// Getting the scan result
+		ResultScanner scanner = table.getScanner(scan);
+		// Reading values from scan result
+		for (Result result = scanner.next(); result != null; result = scanner.next()) {
+			byte[] value1 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+			byte[] value2 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("city"));
+			byte[] value4 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			byte[] value8 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+			System.out.println("ownerId:" + Bytes.toString(value1) + " address:" + Bytes.toString(value2) + " city:"
+					+ Bytes.toString(value3) + " totalRoomArea:" + Bytes.toInt(value4) + " rentalCost:" + Bytes.toInt(value5));
+			//Printing the values
+			String vownerId = Bytes.toString(value1);
+			String vcity = Bytes.toString(value2);
+			String vaddress = Bytes.toString(value3);
+			int vtotalRoomArea = Bytes.toInt(value4);
+			int vrentalCost = Bytes.toInt(value5);
+			int vtoiletArea = Bytes.toInt(value7);
+			String vtoiletType = Bytes.toString(value8);
+			String roomId = Bytes.toString(result.getRow());
+			
+			//Scan perlengkapan
+			List<Barang> vKelengkapan = getBarang(roomId);
+
+			Room room = new Room(vownerId, vcity, vaddress, vtotalRoomArea, vrentalCost, vKelengkapan, vtoiletArea);
+			room.setRoomId(roomId);
+			room.setToiletType(vtoiletType);
+			resultList.add(room);
+		}
+		scanner.close();
+
+		return resultList;
+	}
+
+	public List<Room> getRoomByStuff(String[] stuffList) throws IOException{
+		List<Room> resultList = new ArrayList<Room>();
+
+		HTable table = new HTable(config, "room");
+
+		List<Filter> filters = new ArrayList<Filter>();
+		
+		// Instantiating the Scan class
+		Scan scan = new Scan();
+		
+		//Filter
+		SingleColumnValueFilter colValFilter;
+		for(int i = 0; i < stuffList.length; i++) {
+		    System.out.println(stuffList[i]);
+		    colValFilter = new SingleColumnValueFilter(Bytes.toBytes("private"), Bytes.toBytes(stuffList[i])
+		            , CompareFilter.CompareOp.GREATER, new BinaryComparator(Bytes.toBytes(0)));
+		    colValFilter.setFilterIfMissing(true);
+		    filters.add(colValFilter);
+		    scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes(stuffList[i]));
+		}
+
+		FilterList fl = new FilterList( FilterList.Operator.MUST_PASS_ALL, filters);
+		
+		// Scanning the required columns
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("general"), Bytes.toBytes("city"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+		scan.setFilter(fl);
+
+		// Getting the scan result
+		ResultScanner scanner = table.getScanner(scan);
+		// Reading values from scan result
+		for (Result result = scanner.next(); result != null; result = scanner.next()) {
+			byte[] value1 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
+			byte[] value2 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("city"));
+			byte[] value4 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
+			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			byte[] value8 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
+			System.out.println("ownerId:" + Bytes.toString(value1) + " address:" + Bytes.toString(value2) + " city:"
+					+ Bytes.toString(value3) + " totalRoomArea:" + Bytes.toInt(value4) + " rentalCost:" + Bytes.toInt(value5));
+			//Printing the values
+			String vownerId = Bytes.toString(value1);
+			String vcity = Bytes.toString(value2);
+			String vaddress = Bytes.toString(value3);
+			int vtotalRoomArea = Bytes.toInt(value4);
+			int vrentalCost = Bytes.toInt(value5);
+			int vtoiletArea = Bytes.toInt(value7);
+			String vtoiletType = Bytes.toString(value8);
+			String roomId = Bytes.toString(result.getRow());
+			
+			//Scan perlengkapan
+			List<Barang> vKelengkapan = getBarang(roomId);
+
+			Room room = new Room(vownerId, vcity, vaddress, vtotalRoomArea, vrentalCost, vKelengkapan, vtoiletArea);
+			room.setRoomId(roomId);
+			room.setToiletType(vtoiletType);
+			resultList.add(room);
+		}
+		scanner.close();
+
+		return resultList;
+	}
 }

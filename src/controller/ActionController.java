@@ -214,32 +214,54 @@ public class ActionController extends HttpServlet {
 		} else if ("room_by_city".equals(action)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/roomByCity.jsp");
 			rd.forward(request, response);
-		} else if ("room_by_barang".equals(action)) {
+		} else if ("room_by_cost".equals(action)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/roomByCost.jsp");
 			rd.forward(request, response);
-		} else if ("room_by_cost".equals(action)) {
+		} else if ("room_by_barang".equals(action)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/roomByStuff.jsp");
 			rd.forward(request, response);
 		} else if ("room_by_toilet".equals(action)) {
 			RequestDispatcher rd = request.getRequestDispatcher("/roomByToilet.jsp");
 			rd.forward(request, response);
 		} else if ("roomByCity".equals(action)) {
-			String city = request.getParameter("city");
-			RequestDispatcher rd = request.getRequestDispatcher("/daftarKamar.jsp");
-			rd.forward(request, response);
+			String city = request.getParameter("city").toUpperCase();
+			try {
+				List<Room> roomList = hbaseUtils.getRoomByCity(city);
+				request.setAttribute("roomList", roomList);
+				request.getRequestDispatcher("/daftarKamar.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if ("roomByCost".equals(action)) {
 			int min = Integer.parseInt(request.getParameter("minCost"));
 			int max = Integer.parseInt(request.getParameter("maxCost"));
-			RequestDispatcher rd = request.getRequestDispatcher("/daftarKamar.jsp");
-			rd.forward(request, response);
+			try {
+				List<Room> roomList = hbaseUtils.getRoomByCost(min,max);
+				request.setAttribute("roomList", roomList);
+				request.getRequestDispatcher("/daftarKamar.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if ("roomByStuff".equals(action)) {
 			String stuff = request.getParameter("stuff");
-			RequestDispatcher rd = request.getRequestDispatcher("/daftarKamar.jsp");
-			rd.forward(request, response);
+			String[] stuffList = stuff.split(",");
+			System.out.println(stuff);
+			try {
+				List<Room> roomList = hbaseUtils.getRoomByStuff(stuffList);
+				request.setAttribute("roomList", roomList);
+				request.getRequestDispatcher("/daftarKamar.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else if ("roomByToilet".equals(action)) {
-			String stuff = request.getParameter("toilet");
-			RequestDispatcher rd = request.getRequestDispatcher("/daftarKamar.jsp");
-			rd.forward(request, response);
+			String toiletType = request.getParameter("toilet");
+			try {
+				List<Room> roomList = hbaseUtils.getRoomByToilet(toiletType);
+				request.setAttribute("roomList", roomList);
+				request.getRequestDispatcher("/daftarKamar.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

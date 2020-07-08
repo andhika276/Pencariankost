@@ -12,10 +12,10 @@
 		<input type="text" name="roomID" value="${room.roomId}"> <BR>
 		Update kota : <input type="text" name="city" value="${room.city}"> <BR>
 		Update alamat : <input type="text" name="address" value="${room.address}"> <BR>
-		Update luas kamar (m^2) : <input type="text" name="totalRoomArea" value="${room.totalRoomArea}"> <BR>
-		Update harga sewa (perbulan) : <input type="text" name="rentalCost" value="${room.rentalCost}"> <BR>
+		Update luas kamar (m^2) : <input type="number" name="totalRoomArea" value="${room.totalRoomArea}"> <BR>
+		Update harga sewa (perbulan) : <input type="number" name="rentalCost" value="${room.rentalCost}"> <BR>
 		<input type="hidden" name="action" value="edit_room">
-		<input type="submit"/>
+		<input type="submit" value="Selesai"/>
 	</form>
 </body>
 </html>

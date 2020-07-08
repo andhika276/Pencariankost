@@ -11,10 +11,9 @@
 		<input type="text" name="id" value="${ownerId}"> <BR>
 		Masukan kota : <input type="text" name="city"> <BR>
 		Masukan alamat : <input type="text" name="address"> <BR>
-		Masukan luas kamar (m^2) : <input type="text" name="totalRoomArea"> <BR>
-		Masukan harga sewa (perbulan) : <input type="text" name="rentalCost"> <BR>
-		<input type="hidden" name="action" value="insert_room">
-		<input type="submit"/>
+		Masukan luas kamar (m^2) : <input type="number" name="totalRoomArea"> <BR>
+		Masukan harga sewa (perbulan) : <input type="number" name="rentalCost"> <BR>
+		<button type="submit"  name="action" value="insert_room">Input Room Data</button>
 	</form>
 
 </body>

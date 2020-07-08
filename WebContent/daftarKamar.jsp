@@ -10,10 +10,10 @@
 <body>
 	<div align="center">
 		<form action="ActionController" method="post">
-			<input type="submit" name="action" value="retrieve_room">
-			<input type="submit" name="action" value="to_input_room">
-			<input type="submit" name="action" value="Filter">
-			<input type="text" name="id" value="${ownerId}">
+			<button type="submit"  name="action" value="retrieve_owner">Tampilkan Semua Owner</button>
+			<button type="submit"  name="action" value="to_input_room">Input Kamar Baru</button>
+			<button type="submit" name="action" value="search_room_menu">Cari kamar</button>
+			<input type="hidden" name="id" value="${ownerId}">
         </form>
         <table border="1" cellpadding="5">
             <caption><h2>List of Room</h2></caption>
@@ -33,13 +33,13 @@
 			            <td>${room.city}</td>
 			            <td>${room.totalRoomArea}</td>
 			            <td>${room.rentalCost}</td>
-			            <td align="center"><input type="submit" name="action" value="tambah_barang">
+			            <td align="center"><button type="submit"  name="action" value="tambah_barang">Tambah Barang</button>
 						<c:forEach items="${room.getKelengkapan()}" var="Kelengkapan">
 							<li style="list-style-type:none;">${Kelengkapan.namaBarang}, ${Kelengkapan.jumlah}</li>
 						</c:forEach>
 						</td>
-			            <td><input type="submit" name="action" value="delete_room"></td>
-			            <td><input type="submit" name="action" value="update_room"/></td>
+			            <td><button type="submit"  name="action" value="delete_room">Hapus</button></td>
+			            <td><button type="submit"  name="action" value="update_room">Update</button></td>
 			        </tr>
 			        <input type="hidden" name="roomId" value="${room.roomId}">
 			        <input type="hidden" name="ownerId" value="${room.ownerId}">

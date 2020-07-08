@@ -10,9 +10,10 @@
 <body>
 	<div align="center">
 		<form action="ActionController" method="post">
-			<input type="submit" name="action" value="retrieve_all_room">
-			<input type="submit" name="action" value="retrieve_owner">
-			<input type="submit" name="action" value="to_input_owner">
+			<button type="submit"  name="action" value="retrieve_all_room">Tampilkan Semua Kamar</button>
+			<button type="submit"  name="action" value="retrieve_owner">Tampilkan Semua Owner</button>
+			<button type="submit"  name="action" value="to_input_owner">Input Owner Baru</button>
+			<button type="submit"  name="action" value="to_filter_owner">Filter</button>
         </form>
         <table border="1" cellpadding="5">
             <caption><h2>Daftar Pemilik Kost</h2></caption>
@@ -32,9 +33,9 @@
 			            <td>${info.address}</td>
 			            <td>${info.contact}</td>
 			            <td>${info.roomTotal}</td>
-			            <td><input type="submit" name="action" value="delete_owner"></td>
-			            <td><input type="submit" name="action" value="update_owner"></td>
-			    		<td align="center"><input type="submit" name="action" value="roomInfo"></td>
+			            <td><button type="submit"  name="action" value="delete_owner">Hapus</button></td>
+			            <td><button type="submit"  name="action" value="update_owner">Update</button></td>
+			    		<td align="center"><button type="submit"  name="action" value="roomInfo">Daftar Kamar</button></td>
 			        </tr>
 			        <input type="hidden" name="id" value="${info.ownerId}">
 			        <input type="hidden" name="name" value="${info.name}">

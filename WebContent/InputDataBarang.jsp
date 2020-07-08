@@ -10,7 +10,7 @@
 	<form action="ActionController" method="post">
 		<input type="hidden" name="idRoom" value="${roomId}">
 		Nama Barang : <input type="text" name="namaBarang"> <BR>
-		Jumlah Barang : <input type="text" name="jumlah"> <BR>
+		Jumlah Barang : <input type="number" name="jumlah"> <BR>
 		<input type="hidden" name="action" value="insert_barang">
 		<input type="submit" />
 	</form>

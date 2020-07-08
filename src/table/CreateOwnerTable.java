@@ -24,7 +24,6 @@ public class CreateOwnerTable {
 
 		// Adding column families to table descriptor
 		tableDescriptor.addFamily(new HColumnDescriptor("info"));
-		tableDescriptor.addFamily(new HColumnDescriptor("roominfo"));
 
 		// Execute the table through admin
 		admin.createTable(tableDescriptor);

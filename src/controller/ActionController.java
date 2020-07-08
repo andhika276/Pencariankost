@@ -194,6 +194,24 @@ public class ActionController extends HttpServlet {
 				RequestDispatcher rd = request.getRequestDispatcher("/error.jsp");
 				rd.forward(request, response);
 			}
+		} else if ("to_filter_owner".equals(action)) {
+			RequestDispatcher rd = request.getRequestDispatcher("/FilterOwner.jsp");
+			rd.forward(request, response);
+		} else if ("filter_jumlah_kamar".equals(action)) {
+			int jumlah = Integer.parseInt(request.getParameter("jumlahKamar"));
+			try {
+				ArrayList<Owner> listOwner = hbaseUtils.getOwnerByJumlah(jumlah);
+				request.setAttribute("ownerInfo", listOwner);
+				request.getRequestDispatcher("/daftarPemilik.jsp").forward(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if ("search_room_menu".equals(action)) {
+			RequestDispatcher rd = request.getRequestDispatcher("/CariKamar.jsp");
+			rd.forward(request, response);
+		} else if ("room_by_city".equals(action)) {
+			RequestDispatcher rd = request.getRequestDispatcher("/CariKamar.jsp");
+			rd.forward(request, response);
 		}
 	}
 	

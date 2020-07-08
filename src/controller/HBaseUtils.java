@@ -320,6 +320,26 @@ public class HBaseUtils {
 
 			// closing HTable
 			hTable.close();
+			
+			//Menambah Jumlah Kamar
+			HTable table = new HTable(config, "owner");
+			
+			Get get = new Get(Bytes.toBytes(ownerid));
+			get.addFamily(Bytes.toBytes("info"));
+			
+			Result result = table.get(get);
+			byte [] value = result.getValue(Bytes.toBytes("info"),Bytes.toBytes("roomtotal"));
+			
+			int roomtotal = Bytes.toInt(value);
+			roomtotal += 1;
+			
+			p = new Put(Bytes.toBytes(ownerid));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("roomtotal"), Bytes.toBytes(roomtotal));
+
+			// Saving the put Instance to the HTable.
+			table.put(p);
+			// closing the HTable object
+			table.close();
 		} catch (IOException e) {
 			// TODO: handle exception
 			return false;
@@ -385,7 +405,43 @@ public class HBaseUtils {
 	public boolean deleteroom(String roomid) {
 
 		try {
+			/* ----------- Get Owner ID by Room ID ----------------- */
 			HTable table = new HTable(config, "room");
+			
+			Get get = new Get(Bytes.toBytes(roomid));
+			get.addFamily(Bytes.toBytes("general"));
+			
+			Result result = table.get(get);
+			byte [] value = result.getValue(Bytes.toBytes("general"),Bytes.toBytes("ownerId"));
+			
+			String owner = Bytes.toString(value);
+
+			// closing the HTable object
+			table.close();
+			
+			/* ----------- Mengurangi Jumlah Kamar ----------------- */
+			table = new HTable(config, "owner");
+			Put p = null;
+			
+			Get getOwner = new Get(Bytes.toBytes(owner));
+			get.addFamily(Bytes.toBytes("info"));
+			
+			Result OwnerResult = table.get(getOwner);
+			byte [] value2 = OwnerResult.getValue(Bytes.toBytes("info"),Bytes.toBytes("roomtotal"));
+			
+			int roomtotal = Bytes.toInt(value2);
+			roomtotal -= 1;
+			
+			p = new Put(Bytes.toBytes(owner));
+			p.add(Bytes.toBytes("info"), Bytes.toBytes("roomtotal"), Bytes.toBytes(roomtotal));
+
+			// Saving the put Instance to the HTable.
+			table.put(p);
+			// closing the HTable object
+			table.close();
+			
+			/* ----------- Delete Room ----------------- */
+			table = new HTable(config, "room");
 			// Instantiating Delete class
 			Delete delete = new Delete(Bytes.toBytes(roomid));
 			// delete.deleteColumn(Bytes.toBytes("public"), Bytes.toBytes("name"));
@@ -459,6 +515,7 @@ public class HBaseUtils {
 	public boolean insertBarang(String roomid, String namaBarang, int jumlah) {
 		try {
 			HTable table = new HTable(config, "room");
+			namaBarang = namaBarang.toLowerCase();
 
 			Get get = new Get(Bytes.toBytes(roomid));
 			get.addFamily(Bytes.toBytes("private"));
@@ -472,7 +529,7 @@ public class HBaseUtils {
 				daftarBarang = namaBarang.concat(",");
 			}
 			else {
-				daftarBarang = daftarBarang.concat(namaBarang.toLowerCase() + ",");
+				daftarBarang = daftarBarang.concat(namaBarang + ",");
 			}
 					
 			Put p = new Put(Bytes.toBytes(roomid));
@@ -489,5 +546,56 @@ public class HBaseUtils {
 			return false;
 		}
 		return true;
+	}
+
+	public ArrayList<Owner> getOwnerByJumlah(int jumlah) throws IOException{
+		ArrayList<Owner> resultList = new ArrayList<>();
+		HTable table = new HTable(config, "owner");
+
+		List<Filter> filters = new ArrayList<Filter>();
+
+		//Filter
+		SingleColumnValueFilter colValFilter = new SingleColumnValueFilter(Bytes.toBytes("info"), Bytes.toBytes("roomtotal")
+	            , CompareFilter.CompareOp.GREATER_OR_EQUAL, new BinaryComparator(Bytes.toBytes(jumlah)));
+	    colValFilter.setFilterIfMissing(false);
+	    filters.add(colValFilter);
+
+		FilterList fl = new FilterList( FilterList.Operator.MUST_PASS_ALL, filters);
+		
+		// Instantiating the Scan class
+		Scan scan = new Scan();
+		
+		// Scanning the required columns
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("name"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("address"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("contact"));
+		scan.addColumn(Bytes.toBytes("info"), Bytes.toBytes("roomtotal"));
+		scan.setFilter(fl);
+
+		// Getting the scan result
+		ResultScanner scanner = table.getScanner(scan);
+				
+		// Reading values from scan result
+		for (Result result = scanner.next(); result != null; result = scanner.next()) {
+			byte[] value1 = result.getValue(Bytes.toBytes("info"), Bytes.toBytes("name"));
+			byte[] value2 = result.getValue(Bytes.toBytes("info"), Bytes.toBytes("address"));
+			byte[] value3 = result.getValue(Bytes.toBytes("info"), Bytes.toBytes("contact"));
+			byte[] value4 = result.getValue(Bytes.toBytes("info"), Bytes.toBytes("roomtotal"));
+			System.out.println("Name:" + Bytes.toString(value1) + " Address:" + Bytes.toString(value2) + " Contact:"
+					+ Bytes.toString(value3) + " RoomTotal:" + Bytes.toInt(value4));
+			// Printing the values
+			String vname = Bytes.toString(value1);
+			String vaddress = Bytes.toString(value2);
+			String vcontact = Bytes.toString(value3);
+			int vroomTotal = Bytes.toInt(value4);
+			String vownerid = Bytes.toString(result.getRow());
+
+			Owner owner = new Owner(vname, vaddress, vcontact, vroomTotal);
+			owner.setOwnerId(vownerid);
+			resultList.add(owner);
+		}
+		scanner.close();
+
+		return resultList;
 	}
 }

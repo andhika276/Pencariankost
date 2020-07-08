@@ -22,6 +22,7 @@
                 <th>Kota</th>
                 <th>Luas Kamar</th>
                 <th>Harga</th>
+                <th>Luas Kamar Mandi</th>
                 <th>Daftar Barang (Column Family stuff)</th>
                 <th>Delete</th>
                 <th>Update</th>
@@ -33,6 +34,7 @@
 			            <td>${room.city}</td>
 			            <td>${room.totalRoomArea}</td>
 			            <td>${room.rentalCost}</td>
+			            <td>${room.totalToiletArea} (${room.toiletType})</td>
 			            <td align="center"><button type="submit"  name="action" value="tambah_barang">Tambah Barang</button>
 						<c:forEach items="${room.getKelengkapan()}" var="Kelengkapan">
 							<li style="list-style-type:none;">${Kelengkapan.namaBarang}, ${Kelengkapan.jumlah}</li>
@@ -46,6 +48,8 @@
 			        <input type="hidden" name="address" value="${room.address}">
 			        <input type="hidden" name="city" value="${room.city}">
 			        <input type="hidden" name="totalRoomArea" value="${room.totalRoomArea}">
+			        <input type="hidden" name="totalToiletArea" value="${room.totalToiletArea}">
+			        <input type="hidden" name="jenisToilet" value="${room.toiletType}">
 			        <input type="hidden" name="rentalCost" value="${room.rentalCost}">
 			        <input type="hidden" name="daftarBarang" value="${room.getKelengkapan()}">
 			     </form>

@@ -102,6 +102,8 @@ public class HBaseUtils {
 		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
 		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
 		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
 		scan.setFilter(fl);
 
 		// Getting the scan result
@@ -111,9 +113,11 @@ public class HBaseUtils {
 			byte[] value1 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("ownerId"));
 			byte[] value2 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("address"));
 			byte[] value3 = result.getValue(Bytes.toBytes("general"), Bytes.toBytes("city"));
-			byte[] value4 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
-			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+			byte[] value4 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
+			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"));
 			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			byte[] value8 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
 			System.out.println("ownerId:" + Bytes.toString(value1) + " address:" + Bytes.toString(value2) + " city:"
 					+ Bytes.toString(value3) + " totalRoomArea:" + Bytes.toInt(value4) + " rentalCost:" + Bytes.toInt(value5));
 			//Printing the values
@@ -122,13 +126,16 @@ public class HBaseUtils {
 			String vaddress = Bytes.toString(value3);
 			int vtotalRoomArea = Bytes.toInt(value4);
 			int vrentalCost = Bytes.toInt(value5);
+			int vtoiletArea = Bytes.toInt(value7);
+			String vtoiletType = Bytes.toString(value8);
 			String roomId = Bytes.toString(result.getRow());
 			
 			//Scan perlengkapan
 			List<Barang> vKelengkapan = getBarang(roomId);
 
-			Room room = new Room(vownerId, vcity, vaddress, vtotalRoomArea, vrentalCost, vKelengkapan);
+			Room room = new Room(vownerId, vcity, vaddress, vtotalRoomArea, vrentalCost, vKelengkapan, vtoiletArea);
 			room.setRoomId(roomId);
+			room.setToiletType(vtoiletType);
 			resultList.add(room);
 		}
 		scanner.close();
@@ -185,7 +192,8 @@ public class HBaseUtils {
 		//scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"));
 		//scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"));
 		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
-		//scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+		scan.addColumn(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
 
 		// Getting the scan result
 		ResultScanner scanner = table.getScanner(scan);
@@ -201,7 +209,8 @@ public class HBaseUtils {
 			//byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"));
 			//byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"));
 			byte[] value5 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"));
-			//byte[] value9 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			byte[] value6 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"));
+			byte[] value7 = result.getValue(Bytes.toBytes("private"), Bytes.toBytes("toiletType"));
 			// System.out.println(" ownerId: " + Bytes.toString(value1) + "address: " +
 			// Bytes.toString(value2)
 			// + " totalComment: " + Bytes.toInt(value3) + "rentalCost: " +
@@ -213,16 +222,18 @@ public class HBaseUtils {
 			String vownerId = Bytes.toString(value1);
 			String vaddress = Bytes.toString(value2);
 			String vcity = Bytes.toString(value3);
-			Integer vrentalCost = Bytes.toInt(value4);
+			int vrentalCost = Bytes.toInt(value4);
 			//String vtotalWatt = Bytes.toString(value5);
 			//String vfloorNumber = Bytes.toString(value6);
-			Integer vtotalRoomArea = Bytes.toInt(value5);
-			//Integer vtotalToiletArea = Bytes.toInt(value8);
+			int vtotalRoomArea = Bytes.toInt(value5);
+			int vtotalToiletArea = Bytes.toInt(value6);
+			String toiletType = Bytes.toString(value7);
 			String vroomId = Bytes.toString(result.getRow());
 			
 			List<Barang> vKelengkapan = getBarang(vroomId);
 			
-			Room room = new Room(vownerId, vaddress, vcity, vtotalRoomArea, vrentalCost, vKelengkapan);
+			Room room = new Room(vownerId, vaddress, vcity, vtotalRoomArea, vrentalCost, vKelengkapan, vtotalToiletArea);
+			room.setToiletType(toiletType);
 			room.setRoomId(vroomId);
 			resultList.add(room);
 		}
@@ -274,8 +285,7 @@ public class HBaseUtils {
 		return true;
 	}
 
-	public boolean insertDataRoom(String ownerid, String address, String city, int totalroomarea, int rentalCost,
-			List<String> Kelengkapan) {
+	public boolean insertDataRoom(String ownerid, String address, String city, int totalroomarea, int rentalCost, List<String> Kelengkapan, String toiletType, int toiletArea) {
 		try {
 			int lastrow = 0;
 			// Instantiating HTable class
@@ -304,9 +314,11 @@ public class HBaseUtils {
 
 			p.add(Bytes.toBytes("general"), Bytes.toBytes("ownerId"), Bytes.toBytes(ownerid));
 			p.add(Bytes.toBytes("general"), Bytes.toBytes("address"), Bytes.toBytes(address));
-			p.add(Bytes.toBytes("general"), Bytes.toBytes("city"), Bytes.toBytes(city));
+			p.add(Bytes.toBytes("general"), Bytes.toBytes("city"), Bytes.toBytes(city.toUpperCase()));
 			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalRoomArea"), Bytes.toBytes(totalroomarea));
 			p.add(Bytes.toBytes("private"), Bytes.toBytes("rentalCost"), Bytes.toBytes(rentalCost));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"), Bytes.toBytes(toiletArea));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("toiletType"), Bytes.toBytes(toiletType));
 			p.add(Bytes.toBytes("private"), Bytes.toBytes("daftarBarang"), Bytes.toBytes(""));
 			// p.add(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"),
 			// Bytes.toBytes(floornumber));
@@ -316,7 +328,7 @@ public class HBaseUtils {
 			// Bytes.toBytes(totaltoiletarea));
 			// Saving the put Instance to the HTable.
 			hTable.put(p);
-			System.out.println("data inserted");
+			System.out.println("data inserted" + rentalCost + totalroomarea);
 
 			// closing HTable
 			hTable.close();
@@ -485,7 +497,7 @@ public class HBaseUtils {
 	}
 
 	public boolean updateroom(String ownerid, String roomid, String address, String city, int totalroomarea, int rentalCost,
-			List<String> Kelengkapan) {
+			List<String> Kelengkapan, int totaltoiletarea, String toiletType) {
 		try {
 			HTable table = new HTable(config,"room");
 
@@ -498,8 +510,8 @@ public class HBaseUtils {
 			//p.add(Bytes.toBytes("private"), Bytes.toBytes("totalWatt"), Bytes.toBytes(totalwatt));
 			//p.add(Bytes.toBytes("private"), Bytes.toBytes("floorNumber"), Bytes.toBytes(floornumber));
 			//p.add(Bytes.toBytes("general"), Bytes.toBytes("totalComment"), Bytes.toBytes(totalcomment));
-			//p.add(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"), Bytes.toBytes(totaltoiletarea));
-
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("totalToiletArea"), Bytes.toBytes(totaltoiletarea));
+			p.add(Bytes.toBytes("private"), Bytes.toBytes("toiletType"), Bytes.toBytes(toiletType));
 			// Saving the put Instance to the HTable.
 			table.put(p);
 			// closing the HTable object

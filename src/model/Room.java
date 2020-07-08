@@ -11,17 +11,19 @@ public class Room {
 	int rentalCost;
 	String totalWatt;
 	String floorNumber;
+	String toiletType;
 	int totalRoomArea;
 	int totalToiletArea;
 	List<Barang> Kelengkapan;
 	
-	public Room(String vownerId, String vaddress, String vcity, int vtotalRoomArea, int vrentalCost, List<Barang> vKelengkapan) {
+	public Room(String vownerId, String vaddress, String vcity, int vtotalRoomArea, int vrentalCost, List<Barang> vKelengkapan, int vtoiletArea) {
 		this.ownerId = vownerId;
 		this.city = vcity;
 		this.address = vaddress;
 		this.totalRoomArea = vtotalRoomArea;
 		this.rentalCost = vrentalCost;
 		this.Kelengkapan = vKelengkapan;
+		this.totalToiletArea = vtoiletArea;
 	}
 
 	public String getRoomId() {
@@ -114,5 +116,13 @@ public class Room {
 	
 	public String getBarangString() {
 		return Kelengkapan.toString();
+	}
+
+	public String getToiletType() {
+		return toiletType;
+	}
+
+	public void setToiletType(String toiletType) {
+		this.toiletType = toiletType;
 	}
 }

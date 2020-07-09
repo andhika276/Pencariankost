@@ -20,10 +20,10 @@
             <tr>
                 <th>Alamat Kost</th>
                 <th>Kota</th>
-                <th>Luas Kamar</th>
+                <th>Luas Kamar (m^2)</th>
                 <th>Harga</th>
-                <th>Luas Kamar Mandi</th>
-                <th>Daftar Barang (Column Family stuff)</th>
+                <th>Luas Kamar Mandi (m^2)</th>
+                <th>Daftar Barang</th>
                 <th>Delete</th>
                 <th>Update</th>
             </tr>

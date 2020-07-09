@@ -14,7 +14,7 @@ public class Room {
 	String toiletType;
 	int totalRoomArea;
 	int totalToiletArea;
-	List<Barang> Kelengkapan;
+	List<Barang> Kelengkapan;  // dijadikan (Column Family stuff)
 	
 	public Room(String vownerId, String vaddress, String vcity, int vtotalRoomArea, int vrentalCost, List<Barang> vKelengkapan, int vtoiletArea) {
 		this.ownerId = vownerId;
